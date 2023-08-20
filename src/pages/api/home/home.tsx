@@ -468,7 +468,7 @@ export const getServerSideProps: GetServerSideProps = async (
   const course_name = context.params?.course_name as string
 
   // Check course authed users -- the JSON.parse is CRUCIAL to avoid bugs with the stringified JSON 😭
-  const course_metadata: CourseMetadata = (await kv.get(
+  const course_metadata: CourseMetadata =  (await kv.get(
     course_name + '_metadata',
   )) as CourseMetadata
 

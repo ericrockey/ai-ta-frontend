@@ -34,10 +34,10 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>UIUC Course AI</title>
+        <title>Ramona</title>
         <meta
           name="description"
-          content="The AI teaching assistant built for students at UIUC."
+          content="The UM teaching assistant."
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -55,7 +55,7 @@ const Home: NextPage = () => {
         <div className="container flex flex-col items-center justify-center gap-8 px-4 py-16 ">
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
             {/* <Link href="/"> */}
-            UIUC Course <span className="text-[hsl(280,100%,70%)]">AI</span>
+            Ramona <span className="text-[hsl(280,100%,70%)]">AI</span>
             {/* </Link> */}
           </h1>
 
@@ -74,33 +74,9 @@ const Home: NextPage = () => {
               ta="center"
               mt="md"
             >
-              Upload anything. Search everything.
-              <br></br>
-              Discover more.
+              Ask me anything about meditation
             </Title>
 
-            <br></br>
-            {/* <Title color="white" order={4} ta="center" mt="sm">
-              AI Teaching Assistant crafted for UIUC students,
-              <br></br>
-              by UIUC students.
-            </Title> */}
-
-            <Text color="#57534e" c="dimmed" ta="center" mt="md">
-              *Factuality not guaranteed.
-              <br></br>
-              Test it in your area of expertise to best assess its capabilities.
-            </Text>
-
-            <Text color="white" ta="center" mt="md" weight={500} size="lg">
-              {/* Add bold span */}
-              <span className="font-bold">Upload</span> your videos, any number
-              of PDFs, PowerPoint, Word, Excel and almost anything other
-              document to chat with your knowledge base.
-              <br></br>
-              Coming soon: Students can contribute content to enhance the
-              AI&apos;s knowledge.
-            </Text>
           </Container>
 
           <Title color="white" order={3}>
