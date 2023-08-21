@@ -33,15 +33,25 @@ const Home: NextPage = () => {
   // const router = useRouter();
   const [allCourses, setAllCourses] = useState([]);
   useEffect(() => {
-    const fetchData = async () =>  {
-      const res = await fetch('/api/UIUC-api/getAllCourseNames', {})
-      console.log('res = ', JSON.stringify(res))
-      if (res.ok) {
-        // setAllCourses
+    async function fetchGetAllCourseNames() {
+      const response = await fetch(`/api/UIUC-api/getAllCourseNames`)
+
+      if (response.ok) {
+        const data = await response.json()
+        return data.all_course_names
+      } else {
+        console.error(`Error fetching course metadata: ${response.status}`)
+        return null
       }
     }
-    fetchData()
-      .catch(console.error)
+
+    fetchGetAllCourseNames()
+      .then((result) => {
+        setAllCourses(result)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }, []);
 
   return (
