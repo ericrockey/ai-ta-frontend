@@ -503,6 +503,8 @@ export const getServerSideProps: GetServerSideProps = async (
     console.log('Google plugin keys not set... will NOT work.')
   }
 
+  console.log('serverSideApiKeyIsSet = ', !!process.env.OPENAI_API_KEY);
+
   return {
     props: {
       // ...buildClerkProps(context.req), // https://clerk.com/docs/nextjs/getserversideprops
