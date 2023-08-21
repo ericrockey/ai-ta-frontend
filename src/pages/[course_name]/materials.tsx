@@ -118,7 +118,7 @@ import { extractEmailsFromClerk } from '~/components/UIUC-Components/clerkHelper
 
 // run on client side
 const CourseMain: NextPage<CourseMainProps> = (props) => {
-  // console.log('PROPS IN materials.tsx', props)
+  console.log('PROPS IN materials.tsx', props)
   const course_name = props.course_name
   const course_data = props.course_data
   const currentPageName = GetCurrentPageName() as string
@@ -173,7 +173,7 @@ const CourseMain: NextPage<CourseMainProps> = (props) => {
   }
 
   // NEW COURSE
-  if (props.course_data == null) {
+  if (props.course_name == null) {
     return (
       <MakeNewCoursePage
         course_name={currentPageName as string}
@@ -186,7 +186,6 @@ const CourseMain: NextPage<CourseMainProps> = (props) => {
     <>
       <MakeOldCoursePage
         course_name={currentPageName as string}
-        course_data={course_data}
         // current_user_email={user_emails[0] as string}
       />
     </>

@@ -34,7 +34,7 @@ const NewCoursePage = () => {
   }
 
   const user_emails = extractEmailsFromClerk(user)
-
+  console.info('NewCoursePage')
   return (
     <MakeNewCoursePage
       course_name={course_name as string}

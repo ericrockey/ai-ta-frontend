@@ -48,10 +48,8 @@ export const GetCurrentPageName = () => {
 
 const MakeOldCoursePage = ({
   course_name,
-  course_data,
 }: {
   course_name: string
-  course_data: any
 }) => {
   // Check auth - https://clerk.com/docs/nextjs/read-session-and-user-data
   // const { classes, } = useStyles()
@@ -61,6 +59,7 @@ const MakeOldCoursePage = ({
   const [courseMetadata, setCourseMetadata] = useState<CourseMetadata | null>(
     null,
   )
+  const [courseData, setCourseData] = useState<any | null>(null)
   const [currentEmail, setCurrentEmail] = useState('')
 
   const router = useRouter()
@@ -89,8 +88,32 @@ const MakeOldCoursePage = ({
       }
     }
 
+    // method to call flask backend api to get course data
+    async function getCourseData(course_name: string) {
+      const API_URL = 'https://flask-production-751b.up.railway.app'
+
+      try {
+        const response = await axios.get(`${API_URL}/getAll`, {
+          params: { course_name },
+        })
+
+        setCourseData(response.data.distinct_files)
+      } catch (error) {
+        console.error('Error fetching course files:', error)
+        return null
+      }
+    }
+
     fetchData()
+
+    getCourseData(course_name)
   }, [currentPageName, clerk_user.isLoaded])
+
+  useEffect(() => {
+    if (courseData) {
+      console.log('courseData = ', courseData);
+    }
+  }, [courseData])
 
   if (!isLoaded || !courseMetadata) {
     return (
@@ -172,9 +195,11 @@ const MakeOldCoursePage = ({
                 </div>
               </Flex>
             </div>
-            <div className="mt-2 flex w-[80%] flex-col items-center justify-center">
-              <CourseFilesList files={course_data} />
-            </div>
+            {courseData && 
+              <div className="mt-2 flex w-[80%] flex-col items-center justify-center">
+                <CourseFilesList files={courseData} />
+              </div>
+            }
           </Flex>
         </div>
       </main>
