@@ -180,7 +180,7 @@ const EditCourseCard = ({
               gradient={{ from: 'gold', to: 'white', deg: 50 }}
               className={montserrat.className}
             >
-              {!is_new_course ? `${courseName}` : 'Chat with your documents'}
+              {!is_new_course ? `${courseName}` : 'Name Your Modal'}
             </Title>
             {is_new_course && (
               <>

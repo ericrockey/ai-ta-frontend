@@ -70,7 +70,10 @@ const handler = async (req: Request): Promise<Response> => {
         token_limit,
       )) as string
       messages[messages.length - 1]!.content = stuffedPrompt
+      console.log('stuffed prompt = ', stuffedPrompt)
     }
+
+
 
     // Take most recent N messages that will fit in the context window
     const prompt_tokens = encoding.encode(promptToSend)

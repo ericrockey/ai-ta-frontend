@@ -60,6 +60,8 @@ export const GotoDefaultButton = () => {
   }, []);
 
   const handleClick = () => {
+    console.info('courseDefault = ', JSON.stringify(courseDefault))
+    console.info('allCourses = ', JSON.stringify(allCourses))
     if (courseDefault) {
       router.push('/' + courseDefault)
       return
