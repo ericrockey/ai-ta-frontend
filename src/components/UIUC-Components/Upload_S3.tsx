@@ -161,6 +161,7 @@ export function DropzoneS3Upload({
 
     // Actually we CAN await here, just don't await this function.
     console.log('right before call /ingest...')
+    console.log('full URL = ', `/api/UIUC-api/ingest?${queryParams}`)
     const response = await fetch(
       `/api/UIUC-api/ingest?${queryParams}`,
       requestObject,
