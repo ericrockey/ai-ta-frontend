@@ -42,7 +42,7 @@ const useStyles = createStyles((theme) => ({}))
 import { useAuth, useUser } from '@clerk/nextjs'
 
 // TODO: Why can't we look up env vars here??
-const railway_url = 'https://web-production-f6ad.up.railway.app/'
+const railway_url = 'https://web-production-f6ad.up.railway.app'
 
 export const GetCurrentPageName = () => {
   // /CS-125/materials --> CS-125
