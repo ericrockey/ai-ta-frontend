@@ -129,7 +129,6 @@ const CourseMain: NextPage<CourseMainProps> = (props) => {
   if (!isLoaded) {
     return (
       <MainPageBackground>
-        I'm Here!!!!
         <LoadingSpinner />
       </MainPageBackground>
     )
