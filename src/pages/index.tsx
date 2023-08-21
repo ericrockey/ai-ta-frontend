@@ -33,6 +33,7 @@ const Home: NextPage = () => {
   // const router = useRouter();
   const [allCourses, setAllCourses] = useState([]);
   useEffect(() => {
+    console.log('inside useEffect')
     async function fetchGetAllCourseNames() {
       const response = await fetch(`/api/UIUC-api/getAllCourseNames`)
 
@@ -47,12 +48,19 @@ const Home: NextPage = () => {
 
     fetchGetAllCourseNames()
       .then((result) => {
+        console.info('result = ', JSON.stringify(result))
         setAllCourses(result)
       })
       .catch((error) => {
         console.error(error)
       })
   }, []);
+
+  useEffect(() => {
+    if (allCourses) {
+      console.log('allCourses = ', JSON.stringify(allCourses));
+    }
+  },[allCourses])
 
   return (
     <>
