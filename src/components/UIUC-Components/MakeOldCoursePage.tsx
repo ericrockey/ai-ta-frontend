@@ -51,6 +51,7 @@ const MakeOldCoursePage = ({
 }: {
   course_name: string
 }) => {
+  console.log('MakeOldCoursePage')
   // Check auth - https://clerk.com/docs/nextjs/read-session-and-user-data
   // const { classes, } = useStyles()
   const { isLoaded, userId, sessionId, getToken } = useAuth() // Clerk Auth
@@ -90,10 +91,9 @@ const MakeOldCoursePage = ({
 
     // method to call flask backend api to get course data
     async function getCourseData(course_name: string) {
-      const API_URL = 'https://flask-production-751b.up.railway.app'
-
       try {
-        const response = await axios.get(`${API_URL}/getAll`, {
+        console.log('getCourseData');
+        const response = await axios.get(`${process.env.RAILWAY_URL}/getAll`, {
           params: { course_name },
         })
 
