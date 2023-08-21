@@ -62,9 +62,6 @@ export const PlaygroundSelect = () => {
 
   return (
     <div className="flex flex-col">
-      <label className="mb-2 text-left text-neutral-700 dark:text-neutral-400">
-        {t('Choose a playground to use')}
-      </label>
       <div
         ref={wrapperRef}
         tabIndex={0}

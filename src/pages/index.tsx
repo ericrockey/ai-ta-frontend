@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { type NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
-// import { Montserrat, Lora, Audiowide } from 'next/font/google'
+// import { Montserrat } from 'next/font/google'
 // import { signIn, signOut, useSession } from "next-auth/react";
 
 // import { UserButton, SignIn } from "@clerk/nextjs";
@@ -31,7 +31,6 @@ const Home: NextPage = () => {
 
   // const user = userUser();
   // const router = useRouter();
-
   return (
     <>
       <Head>
@@ -81,9 +80,13 @@ const Home: NextPage = () => {
           </Container>
 
           <Title color="white" order={3}>
-            Explore the Different Modeals
+            Explore the Different Modals
           </Title>
           <PlaygroundSelect/>
+          <Title color="white" order={3}>
+            Or create a new model: 
+            <NewModalButton/>
+          </Title>
 
         </div>
 
@@ -102,6 +105,8 @@ import { createStyles, SimpleGrid, Container } from '@mantine/core'
 import { IconGauge, IconUser, IconCookie } from '@tabler/icons-react'
 import { useRouter } from 'next/router'
 import { PlaygroundSelect } from '~/components/PlaygroundSelect/PlaygroundSelect';
+import { useUser } from '@clerk/nextjs';
+import { NewModalButton } from '~/components/NewModalButton/NewModalButton';
 
 const mockdata = [
   {
