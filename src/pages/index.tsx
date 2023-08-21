@@ -34,7 +34,7 @@ const Home: NextPage = () => {
   const [allCourses, setAllCourses] = useState([]);
   useEffect(() => {
     const fetchData = async () =>  {
-      const res = await fetch('/api/UIUC-api/getAllCourseNames')
+      const res = await fetch('/api/UIUC-api/getAllCourseNames', {})
       console.log('res = ', JSON.stringify(res))
       if (res.ok) {
         // setAllCourses
