@@ -124,11 +124,12 @@ const CourseMain: NextPage<CourseMainProps> = (props) => {
   const currentPageName = GetCurrentPageName() as string
   // const { isLoaded, userId, sessionId, getToken } = useAuth() // Clerk Auth
   const { user, isLoaded, isSignedIn } = useUser()
-
+  console.log('CourseMain - isLoaded = ', isLoaded)
   // Check auth - https://clerk.com/docs/nextjs/read-session-and-user-data
   if (!isLoaded) {
     return (
       <MainPageBackground>
+        I'm Here!!!!
         <LoadingSpinner />
       </MainPageBackground>
     )
