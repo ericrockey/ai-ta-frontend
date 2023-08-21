@@ -5,10 +5,9 @@ export const runtime = 'edge'
 const getCourseDefault = async (req: any, res: any) => {
 
   try {
-    const courseExists = await kv.get('default_course')
-    res.status(200).json(courseExists as boolean)
+    const courseDefault = await kv.get('default_course')
     console.log('res = ', JSON.stringify(res))
-    return res
+    return courseDefault
   } catch (error) {
     console.log(error)
     res.status(500).json(false)

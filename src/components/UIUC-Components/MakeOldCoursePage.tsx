@@ -41,6 +41,9 @@ const useStyles = createStyles((theme) => ({}))
 
 import { useAuth, useUser } from '@clerk/nextjs'
 
+
+const railway_url = process.env.RAILWAY_URL;
+
 export const GetCurrentPageName = () => {
   // /CS-125/materials --> CS-125
   return useRouter().asPath.slice(1).split('/')[0] as string
@@ -93,8 +96,9 @@ const MakeOldCoursePage = ({
     async function getCourseData(course_name: string) {
       try {
         console.log('getCourseData');
-        console.log('axios call = ', process.env.RAILWAY_URL + '/getAll')
-        const response = await axios.get(process.env.RAILWAY_URL + '/getAll', {
+        console.log('railway_url = ', railway_url)
+        console.log('axios call = ', railway_url + '/getAll')
+        const response = await axios.get(railway_url + '/getAll', {
           params: { course_name },
         })
 
