@@ -30,7 +30,6 @@ const config = {
     domains: [
       'images.unsplash.com',
       'github.com',
-      'uiuc-chatbot.s3.us-east-1.amazonaws.com',
     ],
   },
   experimental: {

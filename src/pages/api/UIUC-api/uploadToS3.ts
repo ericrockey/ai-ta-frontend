@@ -4,8 +4,8 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { createPresignedPost } from '@aws-sdk/s3-presigned-post'
 
 const aws_config = {
-  bucketName: 'uiuc-chatbot',
-  region: 'us-east-1',
+  bucketName: process.env.S3_BUCKET_NAME || '',
+  region: 'us-east-2',
   accessKeyId: process.env.AWS_KEY,
   secretAccessKey: process.env.AWS_SECRET,
 }
@@ -27,9 +27,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       fileName: string
       courseName: string
     }
-
+    console.log('in uploadToS3handler')
     const s3_filepath = `courses/${courseName}/${fileName}`
-
+    console.log('s3_filepath = ', s3_filepath)
     const post = await createPresignedPost(s3Client, {
       Bucket: aws_config.bucketName,
       Key: s3_filepath,
