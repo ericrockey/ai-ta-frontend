@@ -172,7 +172,7 @@ const CourseMain: NextPage<CourseMainProps> = (props) => {
   }
 
   // NEW COURSE
-  if (props.course_name == null) {
+  if (props.course_name == null || true) {
     return (
       <MakeNewCoursePage
         course_name={currentPageName as string}
