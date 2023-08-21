@@ -1,4 +1,4 @@
-// import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { type NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -31,18 +31,18 @@ const Home: NextPage = () => {
 
   // const user = userUser();
   // const router = useRouter();
-  // const [allCourses, setAllCourses] = useState([]);
-  // useEffect(() => {
-  //   const fetchData = async () =>  {
-  //     const res = await fetch('/api/UIUC-api/getAllCourseNames')
-  //     console.log('res = ', JSON.stringify(res))
-  //     if (res.ok) {
-  //       // setAllCourses
-  //     }
-  //   }
-  //   fetchData()
-  //     .catch(console.error)
-  // }, []);
+  const [allCourses, setAllCourses] = useState([]);
+  useEffect(() => {
+    const fetchData = async () =>  {
+      const res = await fetch('/api/UIUC-api/getAllCourseNames')
+      console.log('res = ', JSON.stringify(res))
+      if (res.ok) {
+        // setAllCourses
+      }
+    }
+    fetchData()
+      .catch(console.error)
+  }, []);
 
   return (
     <>
