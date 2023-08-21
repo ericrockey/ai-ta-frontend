@@ -81,14 +81,14 @@ const Home: NextPage = () => {
 
           <GotoDefaultButton/>
 
-          <Title color="white" order={3}>
+          {/* <Title color="white" order={3}>
             Explore the Different Modals
           </Title>
           <PlaygroundSelect/>
           <Title color="white" order={3}>
             Or create a new model: 
             <NewModalButton/>
-          </Title>
+          </Title> */}
 
         </div>
 

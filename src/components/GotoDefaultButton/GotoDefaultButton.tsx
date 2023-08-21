@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
-import { useUser } from '@clerk/nextjs'
 import ActionButton from '../Buttons/ActionButton/ActionButton'
 import { useEffect, useState } from 'react'
+
 
 export const GotoDefaultButton = () => {
   const router = useRouter()
@@ -74,6 +74,8 @@ export const GotoDefaultButton = () => {
   }
 
   return (
-    <ActionButton onClick={handleClick} label="GO" />
+    <div style={{ width: '50px' }}>
+      <ActionButton onClick={handleClick} label="GO" />
+    </div>
   )
 }
