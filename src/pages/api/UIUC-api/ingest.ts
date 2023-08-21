@@ -2,6 +2,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import axios, { AxiosResponse } from 'axios'
 
+const railway_url = 'https://web-production-f6ad.up.railway.app'
+
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { fileName, courseName } = req.query as {
@@ -12,9 +14,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const s3_filepath = `courses/${courseName}/${fileName}`
 
     // const local_url = 'http://127.0.0.1:8000'
-    console.log('calling railway at ', process.env.RAILWAY_URL + '/ingest')
+    console.log('calling railway at ', railway_url + '/ingest')
     const response: AxiosResponse = await axios.get(
-      process.env.RAILWAY_URL + '/ingest',
+      railway_url + '/ingest',
       {
         params: {
           course_name: courseName,

@@ -10,7 +10,7 @@ export const fetchContexts = async (
   search_query: string,
   token_limit = 4000,
 ) => {
-  const API_URL =  process.env.RAILWAY_URL
+  const API_URL = 'https://web-production-f6ad.up.railway.app'
   try {
     const response: AxiosResponse<ContextWithMetadata[]> = await axios.get(
       `${API_URL}/getTopContexts`,

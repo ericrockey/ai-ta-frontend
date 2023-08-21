@@ -45,8 +45,7 @@ export const GetCurrentPageName = () => {
 
 // method to call flask backend api to get course data
 async function getCourseData(course_name: string) {
-  const API_URL =  process.env.RAILWAY_URL
-
+  const API_URL = 'https://web-production-f6ad.up.railway.app'
   try {
     const response = await axios.get(`${API_URL}/getAll`, {
       params: { course_name },

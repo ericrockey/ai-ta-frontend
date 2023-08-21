@@ -50,7 +50,7 @@ export const WebScrape = ({
   const [url, setUrl] = useState('')
   const [icon, setIcon] = useState(<IconWorldDownload size={'50%'} />)
   const [loadinSpinner, setLoadinSpinner] = useState(false)
-  const API_URL =  process.env.RAILWAY_URL
+  const API_URL = 'https://web-production-f6ad.up.railway.app'
   const router = useRouter()
   const isSmallScreen = useMediaQuery('(max-width: 960px)')
   const theme = useMantineTheme()
