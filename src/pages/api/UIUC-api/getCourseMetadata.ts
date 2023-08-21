@@ -9,12 +9,13 @@ const getCourseMetadata = async (req: any, res: any) => {
   // console.log('in api getCourseMetadata: req', req)
   // const { course_name } = req.nextUrl.searchParams
   const course_name = req.nextUrl.searchParams.get('course_name')
-
+  console.log('getCourseMetadata')
+  console.log('course_name = ', course_name )
   try {
     const course_metadata = (await kv.get(
       course_name + '_metadata',
     )) as CourseMetadata
-
+    
     if (course_metadata == null) {
       return NextResponse.json({
         success: true,

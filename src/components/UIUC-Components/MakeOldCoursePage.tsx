@@ -93,6 +93,7 @@ const MakeOldCoursePage = ({
     async function getCourseData(course_name: string) {
       try {
         console.log('getCourseData');
+        console.log('axios call = ', `${process.env.RAILWAY_URL}/getAll`)
         const response = await axios.get(`${process.env.RAILWAY_URL}/getAll`, {
           params: { course_name },
         })

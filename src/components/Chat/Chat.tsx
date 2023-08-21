@@ -79,7 +79,7 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
   }
 
   const redirectToMaterialsPage = () => {
-    router.push(`/${getCurrentPageName()}/materials`)
+    router.push(`/${getCurrentPageName()}/materials?course_name=${getCurrentPageName()}`)
   }
 
   useEffect(() => {

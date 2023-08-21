@@ -79,6 +79,8 @@ const Home: NextPage = () => {
 
           </Container>
 
+          <GotoDefaultButton/>
+
           <Title color="white" order={3}>
             Explore the Different Modals
           </Title>
@@ -107,6 +109,7 @@ import { useRouter } from 'next/router'
 import { PlaygroundSelect } from '~/components/PlaygroundSelect/PlaygroundSelect';
 import { useUser } from '@clerk/nextjs';
 import { NewModalButton } from '~/components/NewModalButton/NewModalButton';
+import { GotoDefaultButton } from '~/components/GotoDefaultButton/GotoDefaultButton';
 
 const mockdata = [
   {
