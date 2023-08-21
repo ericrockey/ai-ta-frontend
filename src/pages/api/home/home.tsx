@@ -471,7 +471,7 @@ export const getServerSideProps: GetServerSideProps = async (
   const course_metadata: CourseMetadata =  (await kv.get(
     course_name + '_metadata',
   )) as CourseMetadata
-
+  console.log('course_metadata = ', JSON.stringify(course_metadata))
   // TODO: FIX THIS PARSE DOESN'T SEEM RIGHT
   //   if (course_metadata && course_metadata.is_private) {
   //   course_metadata.is_private = typeof course_metadata.is_private === 'string'

@@ -26,8 +26,9 @@ import { kv } from '@vercel/kv'
 
 export async function checkIfCourseExists(course_name: string) {
   try {
+    console.log('about to call kv.get(course_name)')
     const courseExists = await kv.get(course_name)
-    // console.log(courseExists);
+    console.log(courseExists);
     return courseExists as boolean
   } catch (error) {
     console.log(error)
