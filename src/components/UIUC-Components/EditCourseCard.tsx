@@ -344,6 +344,7 @@ const PrivateOrPublicCourse = ({
   courseMetadata: CourseMetadata
 }) => {
   const [isPrivate, setIsPrivate] = useState(courseMetadata.is_private)
+  const [isDefault, setIsDefault] = useState(courseMetadata.is_default)
   // const { user, isSignedIn, isLoaded } = useUser()
   // const user_emails = extractEmailsFromClerk(user)
   // console.log("in MakeNewCoursePage.tsx user email list: ", user_emails )
@@ -355,7 +356,7 @@ const PrivateOrPublicCourse = ({
       <IconLock className={className} />
     )
 
-  const handleCheckboxChange = () => {
+  const handleIsPrivateChange = () => {
     const callSetCoursePublicOrPrivate = async (
       course_name: string,
       is_private: boolean,
@@ -389,6 +390,40 @@ const PrivateOrPublicCourse = ({
     callSetCoursePublicOrPrivate(course_name, !isPrivate) // db
   }
 
+  const handleIsDefaultChange = () => {
+    const callSetCourseDefault = async (
+      course_name: string,
+      is_default: boolean,
+    ) => {
+      try {
+        const url = new URL(
+          '/api/UIUC-api/setCourseDefault',
+          window.location.origin,
+        )
+        url.searchParams.append('course_name', course_name)
+        url.searchParams.append('is_default', String(is_default))
+
+        const response = await fetch(url.toString(), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        const data = await response.json()
+        return data.success
+      } catch (error) {
+        console.error(
+          'Error changing course from default to not (or vice versa):',
+          error,
+        )
+        return false
+      }
+    }
+
+    setIsDefault(!isDefault) // react gui
+    callSetCourseDefault(course_name, !isDefault) // db
+  }
+
   const callSetCourseMetadata = async (
     courseMetadata: CourseMetadata,
     course_name: string,
@@ -396,6 +431,7 @@ const PrivateOrPublicCourse = ({
     try {
       const {
         is_private,
+        is_default,
         course_owner,
         course_admins,
         approved_emails_list,
@@ -414,6 +450,7 @@ const PrivateOrPublicCourse = ({
       )
 
       url.searchParams.append('is_private', String(is_private))
+      url.searchParams.append('is_default', String(is_default))
       url.searchParams.append('course_name', course_name)
       url.searchParams.append('course_owner', course_owner)
       url.searchParams.append(
@@ -470,11 +507,11 @@ const PrivateOrPublicCourse = ({
       </Title>
       <Group className="p-3">
         <Checkbox
-          label={`Course is ${
+          label={`Modal is ${
             isPrivate ? 'private' : 'public'
           }. Click to change.`}
-          // description="Course is private by default."
-          aria-label="Checkbox to toggle Course being public or private. Private requires a list of allowed email addresses."
+          // description="Modal is private by default."
+          aria-label="Checkbox to toggle Modal being public or private. Private requires a list of allowed email addresses."
           className={montserrat.className}
           // style={{ marginTop: '4rem' }}
           size="xl"
@@ -482,7 +519,22 @@ const PrivateOrPublicCourse = ({
           color="grape"
           icon={CheckboxIcon}
           defaultChecked={isPrivate}
-          onChange={handleCheckboxChange}
+          onChange={handleIsPrivateChange}
+        />
+        <Checkbox
+          label={`Modal is ${
+            isDefault ? 'default' : 'not default'
+          }. Click to change.`}
+          // description="Course is not default to start."
+          aria-label="Checkbox to toggle this modal to be the default."
+          className={montserrat.className}
+          // style={{ marginTop: '4rem' }}
+          size="xl"
+          // bg='#020307'
+          color="grape"
+          icon={CheckboxIcon}
+          defaultChecked={isPrivate}
+          onChange={handleIsDefaultChange}
         />
       </Group>
       {/* </Group>
@@ -498,6 +550,7 @@ const PrivateOrPublicCourse = ({
           course_admins={[]} // TODO: add admin functionality
           course_name={course_name}
           is_private={isPrivate}
+          is_default={isDefault}
           onEmailAddressesChange={handleEmailAddressesChange}
           course_intro_message={courseMetadata.course_intro_message || ''}
           banner_image_s3={courseMetadata.banner_image_s3 || ''}

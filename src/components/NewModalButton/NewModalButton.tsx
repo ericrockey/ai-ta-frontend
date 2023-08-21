@@ -29,7 +29,7 @@ export const NewModalButton = () => {
             setShowLoginModal(true);
             return;
         }
-        router.push(`/new`)
+        router.push(`/pages/new`)
         }}
       />
       {showLoginModal && (

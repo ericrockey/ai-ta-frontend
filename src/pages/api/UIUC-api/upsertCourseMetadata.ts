@@ -20,6 +20,7 @@ const setCourseMetadata = async (req: any, res: any) => {
   const course_owner =
     req.nextUrl.searchParams.get('course_owner') || 'default_owner'
   const is_private = req.nextUrl.searchParams.get('is_private') || false
+  const is_default = req.nextUrl.searchParams.get('is_default') || false
   const course_admins = JSON.parse(
     req.nextUrl.searchParams.get('course_admins') || '[]',
   )
@@ -39,6 +40,7 @@ const setCourseMetadata = async (req: any, res: any) => {
     const course_metadata: CourseMetadata = {
       ...existing_metadata,
       is_private: is_private,
+      is_default: is_default,
       course_owner: course_owner,
       course_admins: course_admins,
       approved_emails_list: approved_emails_list,
