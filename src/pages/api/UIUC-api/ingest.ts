@@ -8,11 +8,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       fileName: string
       courseName: string
     }
-
+    console.log('at ingest handler')
     const s3_filepath = `courses/${courseName}/${fileName}`
 
     // const local_url = 'http://127.0.0.1:8000'
-
+    console.log('calling railway at ', process.env.RAILWAY_URL + '/ingest')
     const response: AxiosResponse = await axios.get(
       process.env.RAILWAY_URL + '/ingest',
       {
