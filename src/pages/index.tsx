@@ -31,36 +31,6 @@ const Home: NextPage = () => {
 
   // const user = userUser();
   // const router = useRouter();
-  const [allCourses, setAllCourses] = useState([]);
-  useEffect(() => {
-    console.log('inside useEffect')
-    async function fetchGetAllCourseNames() {
-      const response = await fetch(`/api/UIUC-api/getAllCourseNames`)
-
-      if (response.ok) {
-        const data = await response.json()
-        return data.all_course_names
-      } else {
-        console.error(`Error fetching course metadata: ${response.status}`)
-        return null
-      }
-    }
-
-    fetchGetAllCourseNames()
-      .then((result) => {
-        console.info('result = ', JSON.stringify(result))
-        setAllCourses(result)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  }, []);
-
-  useEffect(() => {
-    if (allCourses) {
-      console.log('allCourses = ', JSON.stringify(allCourses));
-    }
-  },[allCourses])
 
   return (
     <>
@@ -111,48 +81,10 @@ const Home: NextPage = () => {
           </Container>
 
           <Title color="white" order={3}>
-            Explore the Courses
+            Explore the Different Modeals
           </Title>
+          <PlaygroundSelect/>
 
-          {/* Main courses */}
-          <div className="flex flex-col items-center gap-2">
-            {/* <p className="text-2xl text-white">
-              {hello.data ? hello.data.greeting : "Loading tRPC query..."}
-            </p> */}
-            {/* <AuthShowcase /> */}
-            <CourseCard />
-            <MoreCoursesSoonCard />
-
-            {/* <Text variant="gradient" size="xl" >ECE 120</Text>
-            <Text STYLE="font-family: 'Audiowide'" variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 45 }} size="xl" weight="800">ECE 120</Text> */}
-          </div>
-
-          <h4 className="font-extrabold tracking-tight text-white sm:text-[3rem]">
-            <Link href="/">
-              Some background{' '}
-              <span className="text-[hsl(280,100%,70%)]">about us</span>
-            </Link>
-          </h4>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-            <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-              href="https://github.com/UIUC-Chatbot/ai-teaching-assistant-uiuc"
-              target="_blank"
-            >
-              <h3 className="text-2xl font-bold">Read the code →</h3>
-              <div className="text-lg">
-                100% free<br></br>100% open source<br></br>100% awesome
-              </div>
-            </Link>
-            <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-              href="https://kastanday.com/"
-              target="_blank"
-            >
-              <h3 className="text-2xl font-bold">Bio →</h3>
-              <div className="text-lg">Made at UIUC by Kastan Day.</div>
-            </Link>
-          </div>
         </div>
 
         {/* search */}
@@ -169,6 +101,7 @@ export default Home
 import { createStyles, SimpleGrid, Container } from '@mantine/core'
 import { IconGauge, IconUser, IconCookie } from '@tabler/icons-react'
 import { useRouter } from 'next/router'
+import { PlaygroundSelect } from '~/components/PlaygroundSelect/PlaygroundSelect';
 
 const mockdata = [
   {
@@ -274,134 +207,6 @@ export function FeaturesCards() {
     >
       {features}
     </SimpleGrid>
-  )
-}
-
-// TODO: USE BETTER CARDS! https://ui.mantine.dev/category/article-cards
-function CourseCard() {
-  return (
-    <div className="box-sizing: border-box; border: 100px solid #ccc;">
-      <Link href="/ece120">
-        <Card
-          bg="#0E1116"
-          style={{ maxWidth: '100%', position: 'relative', minHeight: '100%' }}
-          shadow="sm"
-          padding="lg"
-          radius="md"
-          withBorder
-        >
-          <Card.Section>
-            {/* &auto=format&w=720&q=80&height=160&fit=contain */}
-            <Image
-              src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&fit=contain"
-              width={720}
-              height={100}
-              quality={80}
-              alt="Norway"
-              style={{
-                display: 'block',
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                minWidth: '50px',
-                maxWidth: '100%',
-                minHeight: '50px',
-                maxHeight: '150px',
-              }}
-            />
-          </Card.Section>
-
-          <Group position="apart" mt="md" mb="xs">
-            <Text style={{ fontFamily: 'Montserrat' }} size="xl" weight={800}>
-              ECE 120
-            </Text>
-            <Badge size="xl" color="pink" variant="light">
-              ECE
-            </Badge>
-          </Group>
-
-          <Text size="sm" color="dimmed">
-            Taught by{' '}
-            <Text style={{ display: 'inline' }} color="blue">
-              Prof. Volodymyr (Vlad) Kindratenko
-            </Text>
-            , Director of the Center for Artificial Intelligence Innovation at
-            NCSA, in{' '}
-            <Text style={{ display: 'inline' }} color="blue">
-              Spring 2022
-            </Text>
-            .
-          </Text>
-
-          <Button variant="light" color="blue" fullWidth mt="md" radius="md">
-            View
-          </Button>
-        </Card>
-      </Link>
-    </div>
-  )
-}
-
-function MoreCoursesSoonCard() {
-  return (
-    <div className="box-sizing: border-box; border: 100px solid #ccc;">
-      <Link href="/ece120">
-        <Card
-          bg="#0E1116"
-          style={{ maxWidth: '100%', minHeight: '100%' }}
-          shadow="sm"
-          padding="lg"
-          radius="md"
-          withBorder
-        >
-          <Card.Section>
-            <Image
-              src="https://github.com/KastanDay/learning-t3/blob/dd33e38bc801f4f6bbfc3b3a826a09d805f9bf65/media/Toy_University_students_walking_walter_wick_StableDiffusion-xl-beta-v2-2-2.png?raw=true"
-              width={720}
-              height={100}
-              quality={80}
-              alt="Students walking to school"
-              style={{
-                display: 'block',
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                minWidth: '50px',
-                maxWidth: '100%',
-                minHeight: '50px',
-                maxHeight: '150px',
-              }}
-            />
-          </Card.Section>
-
-          <Group position="apart" mt="md" mb="xs">
-            <Text style={{ fontFamily: 'Montserrat' }} size="xl" weight={800}>
-              More courses coming soon :)
-            </Text>
-            <Badge size="xl" color="pink" variant="light">
-              ECE
-            </Badge>
-          </Group>
-
-          <Text size="sm" color="dimmed">
-            Taught by{' '}
-            <Text style={{ display: 'inline' }} color="blue">
-              Prof. Volodymyr (Vlad) Kindratenko
-            </Text>
-            , Director of the Center for Artificial Intelligence Innovation at
-            NCSA, in{' '}
-            <Text style={{ display: 'inline' }} color="blue">
-              Spring 2022
-            </Text>
-            .
-          </Text>
-
-          <Button variant="light" color="blue" fullWidth mt="md" radius="md">
-            View
-          </Button>
-        </Card>
-      </Link>
-    </div>
   )
 }
 
