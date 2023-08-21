@@ -1,34 +1,20 @@
 import { kv } from '@vercel/kv'
-import { NextResponse } from 'next/server'
-import { CourseMetadata } from '~/types/courseMetadata'
 
-export const runtime = 'edge'
+// export const runtime = "edge";
+// doesn't seem to work...
 
-const setCourseDefault = async (req: any, res: any) => {
-  const course_name = req.nextUrl.searchParams.get('course_name')
-  const is_default = req.nextUrl.searchParams.get('is_default')
+const setCourseAsDefault = async (req: any, res: any) => {
+  console.log('the req body:')
+  console.log(req.body)
+  const { course_name } = req.body
 
   try {
-    const course_metadata = (await kv.get(
-      course_name + '_metadata',
-    )) as CourseMetadata
-
-    if (!course_metadata) {
-      res.status(500).json({ success: false })
-      return
-    }
-
-    const updated_course_metadata: CourseMetadata = {
-      ...course_metadata,
-      is_default, // ONLY CHANGE
-    }
-
-    await kv.set(course_name + '_metadata', updated_course_metadata)
-    return NextResponse.json({ success: true })
+    await kv.set('default_course', course_name)
+    res.status(200).json({ success: true })
   } catch (error) {
-    console.log(error)
-    console.log('removeUserFromCourse FAILURE')
-    return NextResponse.json({ success: false })
+    console.error(error)
+    res.status(500).json({ success: false })
   }
 }
-export default setCourseDefault
+
+export default setCourseAsDefault
