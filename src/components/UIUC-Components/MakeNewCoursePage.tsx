@@ -48,7 +48,7 @@ const MakeNewCoursePage = ({
     string[]
   >([])
   const isSmallScreen = useMediaQuery('(max-width: 960px)')
-
+  console.log('in MakeNewCoursePage')
   return (
     <>
       <Navbar />

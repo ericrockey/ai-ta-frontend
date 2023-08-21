@@ -127,7 +127,9 @@ const Home = ({
 
   // Update the useEffect hook to fetch models only if they haven't been fetched before
   useEffect(() => {
-    if (!apiKey && !serverSideApiKeyIsSet) return
+    if (!apiKey && !serverSideApiKeyIsSet) {
+      return
+    }
     if (modelsFetched) return // Add this line to prevent fetching models multiple times
 
     const fetchData = async () => {
