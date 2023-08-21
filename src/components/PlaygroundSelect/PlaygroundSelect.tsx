@@ -11,11 +11,6 @@ export const PlaygroundSelect = () => {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const router = useRouter()
 
-  const {
-    handleUpdateConversation,
-    dispatch: homeDispatch,
-  } = useContext(HomeContext)
-
   const handlePlaygroundClick = (Playground: string) => {
     setIsOpen(false)
     router.push(`/${Playground}/gpt4`)
