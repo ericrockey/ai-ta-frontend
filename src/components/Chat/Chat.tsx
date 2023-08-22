@@ -196,6 +196,7 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
           temperature: updatedConversation.temperature,
           course_name: getCurrentPageName(),
         }
+        console.log('chatbody = ', chatBody);
         const endpoint = getEndpoint(plugin) // THIS is where we could support EXTREME prompt stuffing.
         let body
         if (!plugin) {
@@ -212,6 +213,7 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
           })
         }
         const controller = new AbortController()
+        console.log('endPOint = ', endpoint);
         const response = await fetch(endpoint, {
           method: 'POST',
           headers: {
