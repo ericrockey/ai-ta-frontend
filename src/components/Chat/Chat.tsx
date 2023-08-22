@@ -64,6 +64,7 @@ import { fetchContexts } from '~/pages/api/getContexts'
 import { useUser } from '@clerk/nextjs'
 import { extractEmailsFromClerk } from '../UIUC-Components/clerkHelpers'
 import { OpenAIModelID, OpenAIModels } from '~/types/openai'
+import Navbar from '../UIUC-Components/Navbar'
 
 export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
   const { t } = useTranslation('chat')
@@ -548,6 +549,7 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
             {selectedConversation?.messages.length === 0 ? (
               <>
                 {/* <CustomBanner bannerUrl={bannerUrl as string} /> Banner on fresh chat page */}
+                <Navbar />
                 {bannerUrl && (
                   <div style={{ width: '100%' }}>
                     <img

@@ -4,16 +4,22 @@ import { useContext } from 'react'
 import { useTranslation } from 'next-i18next'
 import HomeContext from '~/pages/api/home/home.context'
 import { useRouter } from 'next/router'
+import { useUser } from '@clerk/nextjs'
 
 export const PlaygroundSelect = () => {
   const { t } = useTranslation('chat')
   const [isOpen, setIsOpen] = useState(false)
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const router = useRouter()
+  const clerk_user = useUser()
 
-  const handlePlaygroundClick = (Playground: string) => {
+  const handlePlaygroundClick = (playground: string) => {
     setIsOpen(false)
-    router.push(`/${Playground}/gpt4`)
+    if (playground === 'New Training Data Set') {
+      router.push(`/new`)
+      return
+    }
+    router.push(`/${playground}/gpt4`)
     // selectedConversation &&
     //   handleUpdateConversation(selectedConversation, {
     //     key: 'Playground',
@@ -60,8 +66,13 @@ export const PlaygroundSelect = () => {
     }
   }, [wrapperRef])
 
+  const dropdownContents = allCourses.map((playGround) => playGround);
+
+  if (clerk_user.isSignedIn) dropdownContents.concat('New Training Data Set');
+
   return (
     <div className="flex flex-col">
+      <div>Select Training Data Set</div>
       <div
         ref={wrapperRef}
         tabIndex={0}
