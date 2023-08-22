@@ -2,8 +2,11 @@ import { useRouter } from 'next/router'
 import ActionButton from '../Buttons/ActionButton/ActionButton'
 import { useEffect, useState } from 'react'
 
+interface GotoDefaultButtonProps {
+  prompt: string;
+}
 
-export const GotoDefaultButton = () => {
+export const GotoDefaultButton = ({ prompt }: GotoDefaultButtonProps) => {
   const router = useRouter()
   const [courseDefault, setCourseDefault] = useState<string | null>(null)
 
@@ -62,12 +65,13 @@ export const GotoDefaultButton = () => {
   const handleClick = () => {
     console.info('courseDefault = ', JSON.stringify(courseDefault))
     console.info('allCourses = ', JSON.stringify(allCourses))
+    const promptParameter = prompt !== '' ? '?prompt=' + prompt : '';
     if (courseDefault) {
-      router.push('/' + courseDefault)
+      router.push('/' + courseDefault + promptParameter)
       return
     }
     if (allCourses.length > 0) {
-      router.push('/' + allCourses[0])
+      router.push('/' + allCourses[0] + promptParameter)
       return
     }
     router.push('/new')

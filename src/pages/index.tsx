@@ -31,6 +31,8 @@ const Home: NextPage = () => {
 
   // const user = userUser();
   // const router = useRouter();
+
+  const [initialPrompt, setInitialPrompt] = useState<string>('');
   return (
     <>
       <Head>
@@ -74,12 +76,11 @@ const Home: NextPage = () => {
               ta="center"
               mt="md"
             >
-              Ask me anything about meditation
             </Title>
 
           </Container>
-
-          <GotoDefaultButton/>
+          <input style={{ width: '100px' }} type='text' placeholder='Ask me anything about meditation' onChange={evt => setInitialPrompt(evt.target.value)}></input>
+          <GotoDefaultButton prompt={initialPrompt} />
 
           {/* <Title color="white" order={3}>
             Explore the Different Modals
