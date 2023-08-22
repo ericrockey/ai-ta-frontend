@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 
 const Navbar = ({ course_name = '' }) => {
   const router = useRouter()
-  const routeSplit = useMemo(() => router.asPath.slice(1).split('/'), [])
+  const routeSplit = router.asPath.slice(1).split('/')
   console.log('routeSplit = ', JSON.stringify(routeSplit))
   const currentPageName = routeSplit[0]
   console.log('currentPageName = ', JSON.stringify(currentPageName))
