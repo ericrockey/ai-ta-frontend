@@ -28,6 +28,7 @@ export interface HomeInitialState {
   serverSideApiKeyIsSet: boolean
   serverSidePluginKeysSet: boolean
   cooldown: number
+  initialPrompt: string
 }
 
 export const initialState: HomeInitialState = {
@@ -53,4 +54,5 @@ export const initialState: HomeInitialState = {
   serverSideApiKeyIsSet: false,
   serverSidePluginKeysSet: false,
   cooldown: 0,
+  initialPrompt: '',
 }

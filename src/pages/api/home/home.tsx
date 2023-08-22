@@ -442,6 +442,7 @@ const Home = ({
               <Chat
                 stopConversationRef={stopConversationRef}
                 courseMetadata={course_metadata}
+                initialPrompt={}
               />
             </div>
 

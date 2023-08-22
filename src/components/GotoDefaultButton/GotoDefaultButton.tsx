@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import ActionButton from '../Buttons/ActionButton/ActionButton'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import HomeContext from '~/pages/api/home/home.context';
 
 interface GotoDefaultButtonProps {
   prompt: string;
@@ -9,6 +10,9 @@ interface GotoDefaultButtonProps {
 export const GotoDefaultButton = ({ prompt }: GotoDefaultButtonProps) => {
   const router = useRouter()
   const [courseDefault, setCourseDefault] = useState<string | null>(null)
+  const {
+    dispatch,
+  } = useContext(HomeContext)
 
   useEffect(() => {
     async function fetchDefaultCourse() {
@@ -63,15 +67,13 @@ export const GotoDefaultButton = ({ prompt }: GotoDefaultButtonProps) => {
   }, []);
 
   const handleClick = () => {
-    console.info('courseDefault = ', JSON.stringify(courseDefault))
-    console.info('allCourses = ', JSON.stringify(allCourses))
-    const promptParameter = prompt !== '' ? '?prompt=' + prompt : '';
+    dispatch({ field: 'initialPrompt', value: prompt})
     if (courseDefault) {
-      router.push('/' + courseDefault + promptParameter)
+      router.push('/' + courseDefault)
       return
     }
     if (allCourses.length > 0) {
-      router.push('/' + allCourses[0] + promptParameter)
+      router.push('/' + allCourses[0])
       return
     }
     router.push('/new')
