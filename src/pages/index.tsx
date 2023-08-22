@@ -26,15 +26,12 @@ import SignInPage from '~/pages/sign-in/[[...index]]'
 // import { api } from '~/utils/api'
 import Header from '~/components/UIUC-Components/GlobalHeader'
 
-import styles from './index.module.scss';
-
 const Home: NextPage = () => {
   // const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
   // const user = userUser();
   // const router = useRouter();
 
-  const [initialPrompt, setInitialPrompt] = useState<string>('');
   return (
     <>
       <Head>
@@ -78,11 +75,11 @@ const Home: NextPage = () => {
               ta="center"
               mt="md"
             >
+              Ask me anything about meditation
             </Title>
 
           </Container>
-          <input className={styles.initialPrompt} type='text' placeholder='Ask me anything about meditation' onChange={evt => setInitialPrompt(evt.target.value)}></input>
-          <GotoDefaultButton prompt={initialPrompt} />
+          <GotoDefaultButton/>
 
           {/* <Title color="white" order={3}>
             Explore the Different Modals

@@ -1,19 +1,14 @@
 import { useRouter } from 'next/router'
 import ActionButton from '../Buttons/ActionButton/ActionButton'
-import { useContext, useEffect, useState } from 'react'
-import HomeContext from '~/pages/api/home/home.context';
+import { useEffect, useState } from 'react'
 
 interface GotoDefaultButtonProps {
-  prompt: string;
+  prompt?: string;
 }
 
 export const GotoDefaultButton = ({ prompt }: GotoDefaultButtonProps) => {
   const router = useRouter()
   const [courseDefault, setCourseDefault] = useState<string | null>(null)
-  const {
-    state: { prompts, defaultModelId, showPromptbar },
-    dispatch: homeDispatch,
-  } = useContext(HomeContext)
 
   useEffect(() => {
     async function fetchDefaultCourse() {
@@ -68,7 +63,6 @@ export const GotoDefaultButton = ({ prompt }: GotoDefaultButtonProps) => {
   }, []);
 
   const handleClick = () => {
-    homeDispatch({ field: 'initialPrompt', value: prompt})
     if (courseDefault) {
       router.push('/' + courseDefault)
       return

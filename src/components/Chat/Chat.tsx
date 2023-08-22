@@ -78,6 +78,8 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
     return router.asPath.slice(1).split('/')[0] as string
   }
 
+  const [currentPage, setCurrentPage] = useState<string>(getCurrentPageName());
+
   const redirectToMaterialsPage = () => {
     router.push(`/${getCurrentPageName()}/materials?course_name=${getCurrentPageName()}`)
   }
@@ -104,11 +106,16 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
       modelError,
       loading,
       prompts,
-      initialPrompt,
     },
     handleUpdateConversation,
     dispatch: homeDispatch,
   } = useContext(HomeContext)
+
+  useEffect(() => {
+    if (currentPage) {
+      
+    }
+  })
 
   const [currentMessage, setCurrentMessage] = useState<Message>()
   const [autoScrollEnabled, setAutoScrollEnabled] = useState<boolean>(true)

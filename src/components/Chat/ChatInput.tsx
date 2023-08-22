@@ -48,7 +48,7 @@ export const ChatInput = ({
   const { t } = useTranslation('chat')
 
   const {
-    state: { selectedConversation, messageIsStreaming, prompts, initialPrompt },
+    state: { selectedConversation, messageIsStreaming, prompts },
 
     dispatch: homeDispatch,
   } = useContext(HomeContext)
@@ -68,13 +68,6 @@ export const ChatInput = ({
   const filteredPrompts = prompts.filter((prompt) =>
     prompt.name.toLowerCase().includes(promptInputValue.toLowerCase()),
   )
-
-  useEffect(() => {
-    if (initialPrompt !== '') {
-      setContent(initialPrompt);
-      setTimeout(() => { handleSend(), 300})
-    }
-  }, [initialPrompt])
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value
