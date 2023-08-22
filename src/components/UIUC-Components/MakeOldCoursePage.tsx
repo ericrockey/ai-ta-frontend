@@ -120,6 +120,9 @@ const MakeOldCoursePage = ({
     }
   }, [courseData])
 
+  console.info('MakeOldCOurse Page');
+  console.log('isLoaded = ', isLoaded);
+  console.log('courseMetadata = ', courseMetadata);
   if (!isLoaded || !courseMetadata) {
     return (
       <MainPageBackground>

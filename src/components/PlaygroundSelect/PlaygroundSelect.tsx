@@ -6,6 +6,8 @@ import HomeContext from '~/pages/api/home/home.context'
 import { useRouter } from 'next/router'
 import { useUser } from '@clerk/nextjs'
 
+import styles from './PlaygroundSelect.module.scss'
+
 export const PlaygroundSelect = () => {
   const { t } = useTranslation('chat')
   const [isOpen, setIsOpen] = useState(false)
@@ -71,8 +73,8 @@ export const PlaygroundSelect = () => {
   if (clerk_user.isSignedIn) dropdownContents.concat('New Training Data Set');
 
   return (
-    <div className="flex flex-col">
-      <div>Select Training Data Set</div>
+    <div className="flex flex-col playgroundContainer">
+      <div className='styles.dropdownLabel'>Switch Training Data</div>
       <div
         ref={wrapperRef}
         tabIndex={0}
@@ -90,7 +92,7 @@ export const PlaygroundSelect = () => {
         </div>
         {isOpen && (
           <ul className="menu rounded-box absolute z-[1] w-full bg-base-100 p-2 shadow ">
-            {allCourses.map((Playground, index, array) => (
+            {dropdownContents.map((Playground, index, array) => (
               <li
                 key={index}
                 className={`dark:text-white ${

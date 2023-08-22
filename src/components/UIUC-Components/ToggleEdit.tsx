@@ -29,19 +29,21 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-export function ResumeToChat({ course_name }: { course_name?: string }) {
+export function ToggleEdit({ course_name }: { course_name?: string }) {
   const router = useRouter()
   const { classes, theme } = useStyles()
   const [isLoading, setIsLoading] = useState(false)
 
   const handleClick = () => {
     setIsLoading(true)
-    router.push(`/${course_name}/gpt4`)
+    if (course_name) {
+      router.push(`/${course_name}/gpt4`)
+      return
+    }
+    router.push(`/${course_name}/materials`)
   }
 
-  if (!course_name) {
-    return null
-  }
+  const label = course_name ? 'Return to Chat' : 'Add/Edit Training Data';
 
   return (
     <div className={classes.wrapper}>
@@ -75,7 +77,7 @@ export function ResumeToChat({ course_name }: { course_name?: string }) {
                   : theme.black
               }
             >
-              Back to Chat with Documents
+              {label}
             </Text>
             <svg
               width="24"
