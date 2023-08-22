@@ -11,7 +11,8 @@ export const GotoDefaultButton = ({ prompt }: GotoDefaultButtonProps) => {
   const router = useRouter()
   const [courseDefault, setCourseDefault] = useState<string | null>(null)
   const {
-    dispatch,
+    state: { prompts, defaultModelId, showPromptbar },
+    dispatch: homeDispatch,
   } = useContext(HomeContext)
 
   useEffect(() => {
@@ -67,7 +68,7 @@ export const GotoDefaultButton = ({ prompt }: GotoDefaultButtonProps) => {
   }, []);
 
   const handleClick = () => {
-    dispatch({ field: 'initialPrompt', value: prompt})
+    homeDispatch({ field: 'initialPrompt', value: prompt})
     if (courseDefault) {
       router.push('/' + courseDefault)
       return

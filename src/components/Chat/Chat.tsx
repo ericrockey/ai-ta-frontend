@@ -104,6 +104,7 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
       modelError,
       loading,
       prompts,
+      initialPrompt,
     },
     handleUpdateConversation,
     dispatch: homeDispatch,
@@ -556,7 +557,7 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
                         <Spinner size="16px" className="mx-auto" />
                       </div>
                     ) : (
-                      'UIUC Course AI'
+                      'Ramona'
                     )}
                   </div>
 

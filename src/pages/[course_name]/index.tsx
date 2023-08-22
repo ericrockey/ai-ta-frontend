@@ -191,7 +191,7 @@ const IfCourseExists: NextPage<CourseMainProps> = (props) => {
         <MainPageBackground>
           <LoadingSpinner />
           <br></br>
-          <Text weight={800}>Checking if course exists...</Text>
+          <Text weight={800}>Loading model</Text>
         </MainPageBackground>
       ) : (
         <MakeNewCoursePage
