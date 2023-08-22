@@ -586,6 +586,7 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
             ) : (
               <>
                 <div className="sticky top-0 z-10 flex w-full flex-col justify-center bg-neutral-100 text-sm text-neutral-500 dark:border-none dark:bg-[#444654] dark:text-neutral-200">
+                  <Navbar />
                   {/* {bannerUrl && (
                         <div style={{ height: '8vh' , width:'100%'}}>
                           <img src={bannerUrl} alt="Banner" style={{ width: '100%'}}/>

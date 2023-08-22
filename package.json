@@ -52,6 +52,7 @@
     "@vercel/kv": "^0.2.1",
     "aws-sdk": "^2.1380.0",
     "axios": "^1.4.0",
+    "classnames": "^2.3.2",
     "dayjs": "^1.11.7",
     "embla-carousel-react": "^7.1.0",
     "endent": "^2.1.0",

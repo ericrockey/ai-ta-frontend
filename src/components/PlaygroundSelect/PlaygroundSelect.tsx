@@ -5,6 +5,7 @@ import { useTranslation } from 'next-i18next'
 import HomeContext from '~/pages/api/home/home.context'
 import { useRouter } from 'next/router'
 import { useUser } from '@clerk/nextjs'
+import classnames from 'classnames';
 
 import styles from './PlaygroundSelect.module.scss'
 
@@ -14,6 +15,11 @@ export const PlaygroundSelect = () => {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const router = useRouter()
   const clerk_user = useUser()
+
+  const getCurrentPageName = () => {
+    // /CS-125/materials --> CS-125
+    return router.asPath.slice(1).split('/')[0] as string
+  }
 
   const handlePlaygroundClick = (playground: string) => {
     setIsOpen(false)
@@ -73,8 +79,8 @@ export const PlaygroundSelect = () => {
   if (clerk_user.isSignedIn) dropdownContents.concat('New Training Data Set');
 
   return (
-    <div className="flex flex-col playgroundContainer">
-      <div className='styles.dropdownLabel'>Switch Training Data</div>
+    <div className={classnames('flex flex-row playgroundContainer')}>
+      <div className={styles.dropdownLabel}>Switch Training Data</div>
       <div
         ref={wrapperRef}
         tabIndex={0}
@@ -83,11 +89,7 @@ export const PlaygroundSelect = () => {
         onBlur={() => setIsOpen(false)}
       >
         <div className="flex w-full items-center justify-between bg-transparent p-2">
-          {/* <span>
-            {selectedConversation?.model?.id === defaultPlaygroundId
-              ? selectedConversation?.model?.name
-              : selectedConversation?.model?.name || 'Select a playground'}
-          </span> */}
+          {getCurrentPageName()}
           <IconChevronDown size={18} />
         </div>
         {isOpen && (
