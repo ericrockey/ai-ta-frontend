@@ -74,7 +74,7 @@ export const GotoDefaultButton = () => {
   }
 
   return (
-    <div style={{ width: '50px', padding: 0 }}>
+    <div style={{ width: '50px' }}>
       <ActionButton onClick={handleClick} label="GO" />
     </div>
   )
