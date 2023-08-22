@@ -26,7 +26,7 @@ import SignInPage from '~/pages/sign-in/[[...index]]'
 // import { api } from '~/utils/api'
 import Header from '~/components/UIUC-Components/GlobalHeader'
 
-import styles from 'index.module.scss';
+import styles from './index.module.scss';
 
 const Home: NextPage = () => {
   // const hello = api.example.hello.useQuery({ text: "from tRPC" });
