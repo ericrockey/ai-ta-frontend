@@ -41,7 +41,7 @@ export function ToggleEdit({ course_name, isEditing }: { course_name?: string, i
     }
     router.push(`/${course_name}/materials`)
   }
-
+  console.info('isEditing = ', isEditing);
   const label = isEditing ? 'Return to Chat' : 'Add/Edit Training Data';
 
   return (
@@ -95,7 +95,16 @@ export function ToggleEdit({ course_name, isEditing }: { course_name?: string, i
                 />
               </svg>
             ) : (
-              <svg xmlns="http://www.w3.org/2000/svg"  version="1.1" x="0px" y="0px" viewBox="0 0 24 30" enable-background="new 0 0 24 24">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                version="1.1"
+                x="0px"
+                y="0px"
+                viewBox="0 0 24 30"
+                enable-background="new 0 0 24 24"
+              >
                 <path color="white" fill-rule="evenodd" clip-rule="evenodd" d="M21.019,1.734l1.365,1.365c0.555,0.555,0.555,1.461,0,2.016l-0.683,0.683  l-3.381-3.38l0.683-0.683C19.558,1.18,20.465,1.18,21.019,1.734L21.019,1.734z M5.107,1.719C2.958,1.719,1.2,3.477,1.2,5.626v13.148  c0,2.149,1.758,3.907,3.908,3.907h13.148c2.148,0,3.907-1.758,3.907-3.907V8.285l-2.294,2.293v8.196  c0,0.888-0.726,1.613-1.613,1.613H5.107c-0.888,0-1.614-0.726-1.614-1.613V5.626c0-0.888,0.726-1.614,1.614-1.614h8.669l2.293-2.293  H5.107L5.107,1.719z M9.024,15.094l0.553-1.982l0.552-1.983l1.43,1.431l1.43,1.43l-1.982,0.553L9.024,15.094L9.024,15.094z   M20.986,6.512l-3.381-3.38l-7.021,7.021v0l3.38,3.38l0,0L20.986,6.512z"/>
               </svg>
             )}            

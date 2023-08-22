@@ -9,11 +9,13 @@ import { useRouter } from 'next/router'
 const Navbar = ({ course_name = '' }) => {
   const router = useRouter()
   const routeSplit = useMemo(() => router.asPath.slice(1).split('/'), [])
+  console.log('routeSplit = ', JSON.stringify(routeSplit))
   const currentPageName = routeSplit[0]
-
+  console.log('currentPageName = ', JSON.stringify(currentPageName))
   const isEditing = routeSplit.length > 1 && routeSplit[1] === 'materials'
+  console.log('isEditing = ', JSON.stringify(isEditing))
   const isNew = routeSplit[0] === 'new'
-
+  console.log('isNew = ', JSON.stringify(isNew))
   return (
     <div className="flex flex-col items-center bg-[#2e026d]">
       <div className="mt-4 w-full max-w-[95%]">
@@ -127,11 +129,13 @@ const Navbar = ({ course_name = '' }) => {
                 </svg>
               </button> */}
           {isEditing && <PlaygroundSelect />}
-          <Flex direction="row" align="center" justify="center">
-            <div className="ms-4 mt-4 flex flex-row items-center justify-center gap-2">
-              <ToggleEdit course_name={course_name} />
-            </div>
-          </Flex>
+          {!isNew && (
+            <Flex direction="row" align="center" justify="center">
+              <div className="ms-4 mt-4 flex flex-row items-center justify-center gap-2">
+                <ToggleEdit isEditing course_name={course_name} />
+              </div>
+            </Flex>
+          )}
           <Header isNavbar={true} />
         </div>
       </div>
