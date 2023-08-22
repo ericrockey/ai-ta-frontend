@@ -3,16 +3,14 @@ import Header from '~/components/UIUC-Components/GlobalHeader'
 import { Flex } from '@mantine/core'
 import { ToggleEdit } from './ToggleEdit'
 import { PlaygroundSelect } from '../PlaygroundSelect/PlaygroundSelect'
-import { useMemo } from 'react'
 import { useRouter } from 'next/router'
 
-const Navbar = ({ course_name = '' }) => {
+const Navbar = ({ course_name = '', isEditing = false }) => {
   const router = useRouter()
   const routeSplit = router.asPath.slice(1).split('/')
   console.log('routeSplit = ', JSON.stringify(routeSplit))
   const currentPageName = routeSplit[0]
   console.log('currentPageName = ', JSON.stringify(currentPageName))
-  const isEditing = routeSplit.length > 1 && routeSplit[1] === 'materials'
   console.log('isEditing = ', JSON.stringify(isEditing))
   const isNew = routeSplit[0] === 'new'
   console.log('isNew = ', JSON.stringify(isNew))

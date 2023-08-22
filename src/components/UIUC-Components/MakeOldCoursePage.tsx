@@ -149,7 +149,7 @@ const MakeOldCoursePage = ({
 
   return (
     <>
-      <Navbar course_name={course_name} />
+      <Navbar isEditing course_name={course_name} />
 
       <Head>
         <title>{course_name}</title>
