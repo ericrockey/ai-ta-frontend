@@ -1,11 +1,14 @@
 .playgroundContainer {
     padding-left: 50px;
     z-index: 10;
-    width: 9.5rem;
 }
 
 .dropdownLabel {
     font-weight: 500;
     color: 'gold';
-    width: 18rem;
+    width: 9rem;
+}
+
+.dropdown {
+    width: fit-content;
 }

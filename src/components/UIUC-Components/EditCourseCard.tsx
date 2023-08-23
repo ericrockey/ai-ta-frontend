@@ -417,7 +417,7 @@ const EditCourseCard = ({
                   // is_private={courseMetadata?.is_private || false}
                   // banner_image_s3={courseBannerUrl}
                 />
-                <Group position="center" align="center" onClick={handleDeleteModel}>
+                {/* <Group position="center" align="center" onClick={handleDeleteModel}>
                   <Text
                     ta="center"
                     style={{ color: theme.white, fontWeight: 600 }}
@@ -425,7 +425,7 @@ const EditCourseCard = ({
                   >
                     Delete Model
                   </Text>
-                </Group>
+                </Group> */}
               </div>
             </div>
           </div>
@@ -535,6 +535,7 @@ const PrivateOrPublicCourse = ({
         course_admins,
         approved_emails_list,
         course_intro_message,
+        course_prompt,
         banner_image_s3,
       } = courseMetadata
 
@@ -555,6 +556,10 @@ const PrivateOrPublicCourse = ({
       url.searchParams.append(
         'course_intro_message',
         course_intro_message || '',
+      )
+      url.searchParams.append(
+        'course_prompt',
+        course_prompt || '',
       )
       url.searchParams.append('banner_image_s3', banner_image_s3 || '')
       url.searchParams.append('course_admins', JSON.stringify(course_admins))

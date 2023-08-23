@@ -66,7 +66,7 @@ export const PlaygroundSelect = ({ isNew }: { isNew: boolean }) => {
     }
   }, [wrapperRef])
 
-  const newTrainingDataItem = clerk_user.isSignedIn && !isNew ? [NewTrainingDataSet] : []
+  const newTrainingDataItem = clerk_user.isSignedIn ? [NewTrainingDataSet] : []
 
   const dropdownContents = newTrainingDataItem.concat(allCourses.map((playground) => playground));
 
@@ -79,12 +79,12 @@ export const PlaygroundSelect = ({ isNew }: { isNew: boolean }) => {
         onFocus={() => setIsOpen(true)}
         onBlur={() => setIsOpen(false)}
       >
-        <div className="flex w-full items-center justify-between bg-transparent p-2">
+        <div className={classnames(styles.dropdownLabel, 'flex w-full items-center justify-between bg-transparent p-2')}>
           Switch Model
           <IconChevronDown size={18} />
         </div>
         {isOpen && (
-          <ul className="menu rounded-box absolute z-[1] w-full bg-base-100 p-2 shadow ">
+          <ul className={classnames(styles.dropdown, 'menu rounded-box absolute z-[1] w-full bg-base-100 p-2 shadow')}>
             {dropdownContents.map((playground, index, array) => (
               <li
                 key={index}
