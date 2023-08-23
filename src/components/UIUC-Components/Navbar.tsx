@@ -12,7 +12,7 @@ const Navbar = ({ course_name = '', isEditing = false }) => {
   const currentPageName = routeSplit[0]
   console.log('currentPageName = ', JSON.stringify(currentPageName))
   console.log('isEditing = ', JSON.stringify(isEditing))
-  const isNew = routeSplit[0] === 'new'
+  const isNew = router.asPath.includes('new')
   console.log('isNew = ', JSON.stringify(isNew))
   return (
     <div className="flex flex-col items-center bg-[#2e026d]">
