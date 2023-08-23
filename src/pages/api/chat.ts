@@ -98,7 +98,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log('Prompt being sent to OpenAI: ', promptToSend)
     console.log('Message history being sent to OpenAI: ', messagesToSend)
-    alert('promptToSend = ' + promptToSend)
+
     const stream = await OpenAIStream(
       model,
       promptToSend,

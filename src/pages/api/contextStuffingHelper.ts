@@ -23,7 +23,7 @@ export async function getStuffedPrompt(
       tiktokenModel.pat_str,
     )
 
-    const prePrompt = DEFAULT_SYSTEM_PROMPT
+    const prePrompt = ""
     let tokenCounter = encoding.encode(
       prePrompt + '\n\nNow please respond to my query: ' + searchQuery,
     ).length
