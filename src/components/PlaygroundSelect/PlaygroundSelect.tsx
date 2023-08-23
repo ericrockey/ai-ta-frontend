@@ -1,8 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
-import { IconExternalLink, IconChevronDown } from '@tabler/icons-react'
-import { useContext } from 'react'
+import {IconChevronDown } from '@tabler/icons-react'
 import { useTranslation } from 'next-i18next'
-import HomeContext from '~/pages/api/home/home.context'
 import { useRouter } from 'next/router'
 import { useUser } from '@clerk/nextjs'
 import classnames from 'classnames';
@@ -18,13 +16,15 @@ export const PlaygroundSelect = ({ isNew }: { isNew: boolean }) => {
   const router = useRouter()
   const clerk_user = useUser()
 
-  const handlePlaygroundClick = (playground: string) => {
+  const handlePlaygroundClick = async (playground: string) => {
     setIsOpen(false)
     if (playground === NewTrainingDataSet) {
       router.push(`/new`)
+      await router.push(router.asPath)
       return
     }
     router.push(`/${playground}/materials`)
+    await router.push(router.asPath)
   }
 
   const handleClickOutside = (event: MouseEvent) => {
