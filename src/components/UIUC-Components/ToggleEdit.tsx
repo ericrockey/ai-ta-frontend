@@ -35,7 +35,8 @@ export function ToggleEdit({ course_name, isEditing }: { course_name?: string, i
 
   const handleClick = () => {
     setIsLoading(true)
-    if (course_name) {
+    if (course_name === '') return
+    if (isEditing) {
       router.push(`/${course_name}/gpt4`)
       return
     }
