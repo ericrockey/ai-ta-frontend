@@ -205,6 +205,7 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
           temperature: updatedConversation.temperature,
           course_name: getCurrentPageName(),
         }
+        console.log('courseMetadata = ', JSON.stringify(courseMetadata))
         console.log('chatbody = ', chatBody);
         const endpoint = getEndpoint(plugin) // THIS is where we could support EXTREME prompt stuffing.
         let body

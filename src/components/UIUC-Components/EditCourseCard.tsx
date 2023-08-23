@@ -121,6 +121,10 @@ const EditCourseCard = ({
   }
 
   useEffect(() => {
+    console.log('courseMetadata = ', JSON.stringify(courseMetadata))
+  }, [courseMetadata?.course_prompt])
+
+  useEffect(() => {
     // only run when creating new courses.. otherwise VERY wasteful on DB.
     if (checkIfNewCoursePage() == 'new') {
       async function fetchGetAllCourseNames() {
@@ -151,6 +155,10 @@ const EditCourseCard = ({
 
   useEffect(() => {
     setIntroMessage(courseMetadata?.course_intro_message || '')
+  }, [courseMetadata])
+
+  useEffect(() => {
+    setCoursePrompt(courseMetadata?.course_prompt || '')
   }, [courseMetadata])
 
   const uploadToS3 = async (file: File | null) => {
