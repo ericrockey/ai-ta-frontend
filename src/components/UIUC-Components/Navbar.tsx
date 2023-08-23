@@ -5,14 +5,13 @@ import { ToggleEdit } from './ToggleEdit'
 import { PlaygroundSelect } from '../PlaygroundSelect/PlaygroundSelect'
 import { useRouter } from 'next/router'
 
-const Navbar = ({ course_name = '', isEditing = false }) => {
+const Navbar = ({ course_name = '', isEditing = false, isNew = false }) => {
   const router = useRouter()
   const routeSplit = router.asPath.slice(1).split('/')
   console.log('routeSplit = ', JSON.stringify(routeSplit))
   const currentPageName = routeSplit[0]
   console.log('currentPageName = ', JSON.stringify(currentPageName))
   console.log('isEditing = ', JSON.stringify(isEditing))
-  const isNew = router.asPath.includes('new')
   console.log('isNew = ', JSON.stringify(isNew))
   return (
     <div className="flex flex-col items-center bg-[#2e026d]">

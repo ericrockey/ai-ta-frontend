@@ -51,7 +51,7 @@ const MakeNewCoursePage = ({
   console.log('in MakeNewCoursePage')
   return (
     <>
-      <Navbar isEditing />
+      <Navbar isEditing isNew/>
       <Head>
         <title>{course_name}</title>
         <meta
