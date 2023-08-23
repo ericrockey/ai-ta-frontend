@@ -22,14 +22,8 @@ export async function getStuffedPrompt(
       tiktokenModel.pat_str,
     )
 
-    let prePrompt = ''
-    if (course_name == 'Law794-TransactionalDraftingAlam') {
-      prePrompt =
-        "Please answer the following question. Use the documents below, and ONLY the documents below, to answer the question. This is for the law domain and we train law students to stick to facts that are in the record. Do not improvise or use your world knowledge, stick to only the information provided and make heavy use of direct quotes instead of paraphrasing or summarizing. When citing the documents, always use Markdown footnotes in the react-markdown format. Use react-markdown superscript to number the sources at the end of sentences (1, 2, 3...) and use react-markdown Footnotes to list the full document names for each number. Use ReactMarkdown aka 'react-markdown' formatting for super script citations, use semi-formal style. Say that 'the topic is not discussed in these documents' when the answer is not directly available in the documents. If there are related documents, tell the user that they might be able to learn more in that document.\nHere's a few passages of the documents:\n"
-    } else {
-      prePrompt =
-        "Please answer the following question. Use the context below, called your documents, only if it's helpful and don't use parts that are very irrelevant. It's good to quote from your documents directly, when you do always use Markdown footnotes for citations. Use react-markdown superscript to number the sources at the end of sentences (1, 2, 3...) and use react-markdown Footnotes to list the full document names for each number. Use ReactMarkdown aka 'react-markdown' formatting for super script citations, use semi-formal style. Feel free to say you don't know. \nHere's a few passages of the high quality documents:\n"
-    }
+    const prePrompt =
+      "Please answer the following question as a senior, very skillful meditation teacher. Use the context below, called your documents, only if it's helpful and don't use parts that are very irrelevant. Please don't mention the documents directly in your answer, but feel free to use any information from the documents in your answer. Feel free to say you don't know. Do not use any information about meditation that is found outside these documents or the rest of the information passed to you. \nHere's a few passages of the high quality documents:\n"
 
     let tokenCounter = encoding.encode(
       prePrompt + '\n\nNow please respond to my query: ' + searchQuery,
@@ -71,7 +65,7 @@ export async function getStuffedPrompt(
     console.log(
       `Total number of tokens: ${totalNumTokens}. Number of docs: ${contexts.length}, number of valid docs: ${validDocs.length}`,
     )
-
+    console.log('stuffed prompt = ', stuffedPrompt);
     return stuffedPrompt
   } catch (e) {
     console.error(`Error in getStuffedPrompt: ${e}`)

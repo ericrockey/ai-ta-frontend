@@ -73,8 +73,6 @@ const handler = async (req: Request): Promise<Response> => {
       console.log('stuffed prompt = ', stuffedPrompt)
     }
 
-
-
     // Take most recent N messages that will fit in the context window
     const prompt_tokens = encoding.encode(promptToSend)
 
@@ -100,7 +98,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log('Prompt being sent to OpenAI: ', promptToSend)
     console.log('Message history being sent to OpenAI: ', messagesToSend)
-
+    alert('promptToSend = ' + promptToSend)
     const stream = await OpenAIStream(
       model,
       promptToSend,

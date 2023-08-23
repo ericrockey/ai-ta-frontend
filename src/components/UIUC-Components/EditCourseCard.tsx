@@ -25,6 +25,7 @@ import { useRouter } from 'next/router'
 import { LoadingSpinner } from '~/components/UIUC-Components/LoadingSpinner'
 import axios from 'axios'
 import { WebScrape } from '~/components/UIUC-Components/WebScrape'
+import { DEFAULT_SYSTEM_PROMPT } from '~/utils/app/const'
 
 const montserrat = Montserrat({
   weight: '700',
@@ -90,7 +91,7 @@ const EditCourseCard = ({
   courseMetadata?: CourseMetadata
 }) => {
   const [introMessage, setIntroMessage] = useState('')
-  const [coursePrompt, setCoursePrompt] = useState("You are ChatGPT, a large language model trained by OpenAI. Follow the user's instructions carefully. Respond using markdown.")
+  const [coursePrompt, setCoursePrompt] = useState(DEFAULT_SYSTEM_PROMPT)
   const [courseName, setCourseName] = useState(course_name || '')
   const [isCourseAvailable, setIsCourseAvailable] = useState<
     boolean | undefined
@@ -379,7 +380,7 @@ const EditCourseCard = ({
                     </>
                   )}
                 </div>
-                <div className="form-control mt-4">
+                {/* <div className="form-control mt-4">
                   <label className={`label ${montserrat.className}`}>
                     <span className="label-text text-lg text-neutral-200">
                       Upload Banner
@@ -406,7 +407,7 @@ const EditCourseCard = ({
                       }
                     }}
                   />
-                </div>
+                </div> */}
                 <PrivateOrPublicCourse
                   course_name={course_name}
                   current_user_email={current_user_email}
@@ -559,7 +560,7 @@ const PrivateOrPublicCourse = ({
       )
       url.searchParams.append(
         'course_prompt',
-        course_prompt || '',
+        course_prompt || DEFAULT_SYSTEM_PROMPT,
       )
       url.searchParams.append('banner_image_s3', banner_image_s3 || '')
       url.searchParams.append('course_admins', JSON.stringify(course_admins))
@@ -665,7 +666,7 @@ const PrivateOrPublicCourse = ({
           onEmailAddressesChange={handleEmailAddressesChange}
           course_intro_message={courseMetadata.course_intro_message || ''}
           banner_image_s3={courseMetadata.banner_image_s3 || ''}
-          course_prompt={courseMetadata.course_prompt || ''}
+          course_prompt={courseMetadata.course_prompt || DEFAULT_SYSTEM_PROMPT}
         />
       )}
     </>

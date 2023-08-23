@@ -64,6 +64,7 @@ import { fetchContexts } from '~/pages/api/getContexts'
 import { useUser } from '@clerk/nextjs'
 import { extractEmailsFromClerk } from '../UIUC-Components/clerkHelpers'
 import { OpenAIModelID, OpenAIModels } from '~/types/openai'
+import { DEFAULT_SYSTEM_PROMPT } from '~/utils/app/const'
 
 export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
   const { t } = useTranslation('chat')
@@ -200,7 +201,7 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
           model: updatedConversation.model,
           messages: updatedConversation.messages,
           key: apiKey,
-          prompt: courseMetadata.course_prompt || "You are ChatGPT, a large language model trained by OpenAI. Follow the user's instructions carefully. Respond using markdown.",
+          prompt: courseMetadata.course_prompt || DEFAULT_SYSTEM_PROMPT,
           temperature: updatedConversation.temperature,
           course_name: getCurrentPageName(),
         }

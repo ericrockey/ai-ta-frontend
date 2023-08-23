@@ -52,14 +52,17 @@ export const GotoDefaultButton = ({ prompt }: GotoDefaultButtonProps) => {
 
   useEffect(() => {
     if (courseDefault) {
-      router.push('/' + courseDefault)
-      return
+      if (courseDefault != '') {
+        router.push('/' + courseDefault)
+        return
+      }
+      if (allCourses.length > 0) {
+        router.push('/' + allCourses[0])
+        return
+      }
+      router.push('/new')
     }
-    if (allCourses.length > 0) {
-      router.push('/' + allCourses[0])
-      return
-    }
-    router.push('/new')
+   
   }, [courseDefault]);
 
   useEffect(() => {
