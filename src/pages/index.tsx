@@ -55,6 +55,7 @@ const Home: NextPage = () => {
 
 			</header> */}
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#0E1116]">
+        <Navbar isEditing={false} isNew={false} course_name={''}/>
         <div className={classnames(styles.titleContainer, 'container flex flex-col items-center justify-center gap-8 px-4 py-16')}>
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
             {/* <Link href="/"> */}
@@ -112,6 +113,7 @@ import { PlaygroundSelect } from '~/components/PlaygroundSelect/PlaygroundSelect
 import { useUser } from '@clerk/nextjs';
 import { NewModalButton } from '~/components/NewModalButton/NewModalButton';
 import { GotoDefaultButton } from '~/components/GotoDefaultButton/GotoDefaultButton';
+import Navbar from '~/components/UIUC-Components/Navbar';
 
 const mockdata = [
   {

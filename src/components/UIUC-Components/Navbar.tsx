@@ -1,14 +1,18 @@
 import Link from 'next/link'
 import Header from '~/components/UIUC-Components/GlobalHeader'
 import { Flex } from '@mantine/core'
+import classnames from 'classnames'
+
 import { ToggleEdit } from './ToggleEdit'
 import { PlaygroundSelect } from '../PlaygroundSelect/PlaygroundSelect'
+
+import styles from './Navbar.module.scss'
 
 const Navbar = ({ course_name = '', isEditing = false, isNew = false }) => {
   return (
     <div className="flex flex-col items-center bg-[#2e026d]">
-      <div className="mt-4 w-full max-w-[95%]">
-        <div className="navbar rounded-badge h-24 min-h-fit bg-[#15162c] shadow-lg shadow-purple-800">
+      <div className={classnames(styles.mainContainer, 'mt-4 w-full')}>
+        <div className="navbar min-h-fit bg-[#15162c]">
           <div className="flex-1">
             <Link href="/">
               <h2 className="ms-8 cursor-pointer text-3xl font-extrabold tracking-tight text-white sm:text-[2rem] ">
@@ -121,7 +125,7 @@ const Navbar = ({ course_name = '', isEditing = false, isNew = false }) => {
           {!isNew && (
             <Flex direction="row" align="center" justify="center">
               <div className="ms-4 mt-4 flex flex-row items-center justify-center gap-2">
-                <ToggleEdit isEditing course_name={course_name} />
+                <ToggleEdit isEditing={isEditing} course_name={course_name} />
               </div>
             </Flex>
           )}

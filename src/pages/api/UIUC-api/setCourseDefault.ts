@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 
 export const runtime = 'edge'
 
-const setCourseAsDefault = async (req: any, res: any) => {
+const setCourseDefault = async (req: any, res: any) => {
   console.log('the req body:')
   console.log(req.body)
   const { course_name } = req.body
@@ -19,4 +19,4 @@ const setCourseAsDefault = async (req: any, res: any) => {
   }
 }
 
-export default setCourseAsDefault
+export default setCourseDefault
