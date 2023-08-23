@@ -9,21 +9,18 @@ import classnames from 'classnames';
 
 import styles from './PlaygroundSelect.module.scss'
 
-export const PlaygroundSelect = () => {
+const NewTrainingDataSet = 'New Training Data Set'
+
+export const PlaygroundSelect = ({ isNew }: { isNew: boolean }) => {
   const { t } = useTranslation('chat')
   const [isOpen, setIsOpen] = useState(false)
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const router = useRouter()
   const clerk_user = useUser()
 
-  const getCurrentPageName = () => {
-    // /CS-125/materials --> CS-125
-    return router.asPath.slice(1).split('/')[0] as string
-  }
-
   const handlePlaygroundClick = (playground: string) => {
     setIsOpen(false)
-    if (playground === 'New Training Data Set') {
+    if (playground === NewTrainingDataSet) {
       router.push(`/new`)
       return
     }
@@ -76,8 +73,9 @@ export const PlaygroundSelect = () => {
 
   const dropdownContents = allCourses.map((playGround) => playGround);
 
-  if (clerk_user.isSignedIn) dropdownContents.concat('New Training Data Set');
-
+  if (clerk_user.isSignedIn) dropdownContents.concat([NewTrainingDataSet]);
+  console.info('clerk_user.isSignedIn = ', JSON.stringify(clerk_user.isSignedIn))
+  console.info('dropdownContents  = ', JSON.stringify(dropdownContents))
   return (
     <div className={classnames('flex flex-row playgroundContainer')}>
       <div className={styles.dropdownLabel}>Switch Training Data</div>
@@ -89,7 +87,7 @@ export const PlaygroundSelect = () => {
         onBlur={() => setIsOpen(false)}
       >
         <div className="flex w-full items-center justify-between bg-transparent p-2">
-          {getCurrentPageName()}
+          Switch Model
           <IconChevronDown size={18} />
         </div>
         {isOpen && (
