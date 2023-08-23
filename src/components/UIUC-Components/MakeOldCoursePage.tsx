@@ -76,15 +76,17 @@ const MakeOldCoursePage = ({
       setCurrentEmail(userEmail[0] as string)
 
       try {
+        console.log('before call to fetchCourseMetadata')
         const metadata: CourseMetadata = (await fetchCourseMetadata(
           currentPageName,
         )) as CourseMetadata
-
+        console.log('after call to fetchCourseMetadata')
         if (metadata && metadata.is_private) {
           metadata.is_private = JSON.parse(
             metadata.is_private as unknown as string,
           )
         }
+        console.log('calling setCourseMetadata')
         setCourseMetadata(metadata)
       } catch (error) {
         console.error(error)
@@ -92,12 +94,13 @@ const MakeOldCoursePage = ({
       }
     }
 
+    fetchData()
+  }, [currentPageName, clerk_user.isLoaded, clerk_user.user])
+
+  useEffect(() => {
     // method to call flask backend api to get course data
     async function getCourseData(course_name: string) {
       try {
-        console.log('getCourseData');
-        console.log('railway_url = ', railway_url)
-        console.log('axios call = ', railway_url + '/getAll')
         const response = await axios.get(railway_url + '/getAll', {
           params: { course_name },
         })
@@ -108,11 +111,8 @@ const MakeOldCoursePage = ({
         return null
       }
     }
-
-    fetchData()
-
     getCourseData(course_name)
-  }, [currentPageName, clerk_user.isLoaded])
+  }, [course_name, currentPageName, clerk_user.isLoaded])
 
   useEffect(() => {
     if (courseData) {
