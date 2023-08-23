@@ -66,9 +66,9 @@ export const CannotEditGPT4Page = ({
               p="xl"
             >
               {' '}
-              Go to any other ULR, like{' '}
-              <Link href={'/your-awesome-course'}>
-                uiuc.chat/your-awesome-course
+              Go to any other URL, like{' '}
+              <Link href={'/new'}>
+                ai-ta-frontend.vercel.app/new
               </Link>
               , to make a new page.
             </Title>

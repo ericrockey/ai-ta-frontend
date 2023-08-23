@@ -73,7 +73,7 @@ export const callUpsertCourseMetadata = async (
       course_intro_message = '',
       course_prompt = '',
       banner_image_s3 = '',
-      course_admins = ['kvday2@illinois.edu'],
+      course_admins = [],
       approved_emails_list = [],
     } = courseMetadata
 

@@ -178,8 +178,8 @@ export const CanViewOnlyCourse = ({
               account you used to create this page (in the top right).
               <br></br>
               <br></br>
-              Or make a <i>new</i> page by going to any other ULR, like{' '}
-              <Link href={'/your-awesome-course'}>
+              Or make a <i>new</i> page by going to any other URL, like{' '}
+              <Link href={'/new'}>
                 <u
                   style={{
                     textDecoration: 'underline',
@@ -187,7 +187,7 @@ export const CanViewOnlyCourse = ({
                     color: 'inherit',
                   }}
                 >
-                  uiuc.chat/your-awesome-course
+                  ai-ta-frontend.vercel.app/new
                 </u>
               </Link>
               .
