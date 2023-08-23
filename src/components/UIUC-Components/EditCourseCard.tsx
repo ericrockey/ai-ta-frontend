@@ -446,10 +446,51 @@ const PrivateOrPublicCourse = ({
   courseMetadata: CourseMetadata
 }) => {
   const [isPrivate, setIsPrivate] = useState(courseMetadata.is_private)
-  const [isDefault, setIsDefault] = useState(courseMetadata.is_default)
+  const [isDefault, setIsDefault] = useState(false)
   // const { user, isSignedIn, isLoaded } = useUser()
   // const user_emails = extractEmailsFromClerk(user)
   // console.log("in MakeNewCoursePage.tsx user email list: ", user_emails )
+
+  useEffect(() => {
+    console.log('about to call fetchCourseDefault')
+    async function fetchCourseDefault() {
+      try {
+        const url = new URL(
+          '/api/UIUC-api/getCourseDefault',
+          window.location.origin,
+        )
+
+        const response = await fetch(url.toString(), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+
+        console.log('fetchCourseDefault, fetch res = ', JSON.stringify(response))
+        if (response.ok) {
+          const data = await response.json()
+          if (data.success === false) {
+            console.error('An error occurred while fetching course metadata')
+            return null
+          }
+          console.log('success returning getCourseDefault, data = ' , JSON.stringify(data))
+          return data.course_default
+        } else {
+          console.error(`Error fetching course metadata: ${response.status}`)
+          return null
+        }
+      } catch (error) {
+        console.error('Error fetching course metadata:', error)
+        return null
+      }
+    }
+
+    fetchCourseDefault().then((course_default) => {
+      console.log('defaultCourse = ', course_default)
+      if (course_default === course_name) setIsDefault(true);
+    })
+  }, [])
 
   const CheckboxIcon: CheckboxProps['icon'] = ({ indeterminate, className }) =>
     indeterminate ? (
@@ -531,7 +572,6 @@ const PrivateOrPublicCourse = ({
     try {
       const {
         is_private,
-        is_default,
         course_owner,
         course_admins,
         approved_emails_list,
@@ -551,7 +591,6 @@ const PrivateOrPublicCourse = ({
       )
 
       url.searchParams.append('is_private', String(is_private))
-      url.searchParams.append('is_default', String(is_default))
       url.searchParams.append('course_name', course_name)
       url.searchParams.append('course_owner', course_owner)
       url.searchParams.append(
@@ -662,7 +701,6 @@ const PrivateOrPublicCourse = ({
           course_admins={[]} // TODO: add admin functionality
           course_name={course_name}
           is_private={isPrivate}
-          is_default={isDefault}
           onEmailAddressesChange={handleEmailAddressesChange}
           course_intro_message={courseMetadata.course_intro_message || ''}
           banner_image_s3={courseMetadata.banner_image_s3 || ''}
