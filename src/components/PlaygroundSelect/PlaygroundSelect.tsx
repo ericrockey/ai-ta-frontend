@@ -24,7 +24,7 @@ export const PlaygroundSelect = ({ isNew }: { isNew: boolean }) => {
       router.push(`/new`)
       return
     }
-    router.push(`/${playground}/gpt4`)
+    router.push(`/${playground}/materials`)
     // selectedConversation &&
     //   handleUpdateConversation(selectedConversation, {
     //     key: 'Playground',

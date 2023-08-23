@@ -16,7 +16,7 @@ export const GotoDefaultButton = ({ prompt }: GotoDefaultButtonProps) => {
         const response = await fetch(
           '/api/UIUC-api/getDefaultCourse',
         )
-
+        console.log('GotoDefaultButton, fetch res = ', JSON.stringify(response))
         if (response.ok) {
           const data = await response.json()
           if (data.success === false) {
@@ -63,6 +63,7 @@ export const GotoDefaultButton = ({ prompt }: GotoDefaultButtonProps) => {
   }, []);
 
   const handleClick = () => {
+    console.log('GotoDefaultButton click, courseDefault = ', JSON.stringify(courseDefault))
     if (courseDefault) {
       router.push('/' + courseDefault)
       return

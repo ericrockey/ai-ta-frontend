@@ -3,16 +3,8 @@ import Header from '~/components/UIUC-Components/GlobalHeader'
 import { Flex } from '@mantine/core'
 import { ToggleEdit } from './ToggleEdit'
 import { PlaygroundSelect } from '../PlaygroundSelect/PlaygroundSelect'
-import { useRouter } from 'next/router'
 
 const Navbar = ({ course_name = '', isEditing = false, isNew = false }) => {
-  const router = useRouter()
-  const routeSplit = router.asPath.slice(1).split('/')
-  console.log('routeSplit = ', JSON.stringify(routeSplit))
-  const currentPageName = routeSplit[0]
-  console.log('currentPageName = ', JSON.stringify(currentPageName))
-  console.log('isEditing = ', JSON.stringify(isEditing))
-  console.log('isNew = ', JSON.stringify(isNew))
   return (
     <div className="flex flex-col items-center bg-[#2e026d]">
       <div className="mt-4 w-full max-w-[95%]">

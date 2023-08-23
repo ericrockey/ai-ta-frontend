@@ -393,7 +393,6 @@ const PrivateOrPublicCourse = ({
   const handleIsDefaultChange = () => {
     const callSetCourseDefault = async (
       course_name: string,
-      is_default: boolean,
     ) => {
       try {
         const url = new URL(
@@ -401,7 +400,6 @@ const PrivateOrPublicCourse = ({
           window.location.origin,
         )
         url.searchParams.append('course_name', course_name)
-        url.searchParams.append('is_default', String(is_default))
 
         const response = await fetch(url.toString(), {
           method: 'POST',
@@ -421,7 +419,7 @@ const PrivateOrPublicCourse = ({
     }
 
     setIsDefault(!isDefault) // react gui
-    callSetCourseDefault(course_name, !isDefault) // db
+    callSetCourseDefault(course_name) // db
   }
 
   const callSetCourseMetadata = async (
@@ -507,7 +505,7 @@ const PrivateOrPublicCourse = ({
       </Title>
       <Group className="p-3">
         <Checkbox
-          label={`Modal is ${
+          label={`Model is ${
             isPrivate ? 'private' : 'public'
           }. Click to change.`}
           // description="Modal is private by default."
@@ -521,21 +519,23 @@ const PrivateOrPublicCourse = ({
           defaultChecked={isPrivate}
           onChange={handleIsPrivateChange}
         />
-        <Checkbox
-          label={`Modal is ${
-            isDefault ? 'default' : 'not default'
-          }. Click to change.`}
-          // description="Course is not default to start."
-          aria-label="Checkbox to toggle this modal to be the default."
-          className={montserrat.className}
-          // style={{ marginTop: '4rem' }}
-          size="xl"
-          // bg='#020307'
-          color="grape"
-          icon={CheckboxIcon}
-          defaultChecked={isPrivate}
-          onChange={handleIsDefaultChange}
-        />
+        {!isDefault && (
+          <Checkbox
+            label={`Model is ${
+              isDefault ? 'default' : 'not default'
+            }. Click to change.`}
+            // description="Course is not default to start."
+            aria-label="Checkbox to toggle this modal to be the default."
+            className={montserrat.className}
+            // style={{ marginTop: '4rem' }}
+            size="xl"
+            // bg='#020307'
+            color="grape"
+            icon={CheckboxIcon}
+            defaultChecked={isPrivate}
+            onChange={handleIsDefaultChange}
+          />
+        )}
       </Group>
       {/* </Group>
       <Group className="p-3"> */}

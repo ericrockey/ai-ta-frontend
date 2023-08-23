@@ -6,7 +6,7 @@ const getCourseDefault = async (req: any, res: any) => {
 
   try {
     const courseDefault = await kv.get('default_course')
-    console.log('res = ', JSON.stringify(res))
+    console.log('getCourseDefault, res = ', JSON.stringify(res))
     return courseDefault
   } catch (error) {
     console.log(error)

@@ -10,6 +10,7 @@ const setCourseAsDefault = async (req: any, res: any) => {
 
   try {
     await kv.set('default_course', course_name)
+    console.log('setCourseAsDefault, res = ', JSON.stringify(res))
     res.status(200).json({ success: true })
   } catch (error) {
     console.error(error)
