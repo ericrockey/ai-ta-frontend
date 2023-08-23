@@ -2,6 +2,7 @@ import { ContextWithMetadata } from '~/types/chat'
 
 import tiktokenModel from '@dqbd/tiktoken/encoders/cl100k_base.json'
 import { Tiktoken, init } from '@dqbd/tiktoken/lite/init'
+import { DEFAULT_SYSTEM_PROMPT } from '~/utils/app/const'
 
 export async function getStuffedPrompt(
   course_name: string,
@@ -22,7 +23,7 @@ export async function getStuffedPrompt(
       tiktokenModel.pat_str,
     )
 
-    const prePrompt = ""
+    const prePrompt = DEFAULT_SYSTEM_PROMPT
     let tokenCounter = encoding.encode(
       prePrompt + '\n\nNow please respond to my query: ' + searchQuery,
     ).length
