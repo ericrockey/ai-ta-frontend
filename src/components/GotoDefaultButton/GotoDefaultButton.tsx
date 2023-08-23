@@ -11,8 +11,8 @@ export const GotoDefaultButton = ({ prompt }: GotoDefaultButtonProps) => {
   const [courseDefault, setCourseDefault] = useState<string | null>(null)
 
   useEffect(() => {
-    console.log('about to call fetchDefaultCourse')
-    async function fetchDefaultCourse() {
+    console.log('about to call fetchCourseDefault')
+    async function fetchCourseDefault() {
       try {
         const url = new URL(
           '/api/UIUC-api/getCourseDefault',
@@ -34,7 +34,7 @@ export const GotoDefaultButton = ({ prompt }: GotoDefaultButtonProps) => {
             return null
           }
           console.log('success returning getCourseDefault, data = ' , JSON.stringify(data))
-          return data.default_course
+          return data.course_default
         } else {
           console.error(`Error fetching course metadata: ${response.status}`)
           return null
@@ -45,9 +45,9 @@ export const GotoDefaultButton = ({ prompt }: GotoDefaultButtonProps) => {
       }
     }
 
-    fetchDefaultCourse().then((defaultCourse) => {
-      console.log('defaultCourse = ', defaultCourse)
-      setCourseDefault(defaultCourse)
+    fetchCourseDefault().then((course_default) => {
+      console.log('defaultCourse = ', course_default)
+      setCourseDefault(course_default)
     })
   }, [])
 
