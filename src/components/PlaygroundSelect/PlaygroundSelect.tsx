@@ -9,7 +9,7 @@ import classnames from 'classnames';
 
 import styles from './PlaygroundSelect.module.scss'
 
-const NewTrainingDataSet = 'New Training Data Set'
+const NewTrainingDataSet = 'New Model'
 
 export const PlaygroundSelect = ({ isNew }: { isNew: boolean }) => {
   const { t } = useTranslation('chat')
@@ -66,15 +66,12 @@ export const PlaygroundSelect = ({ isNew }: { isNew: boolean }) => {
     }
   }, [wrapperRef])
 
+  const newTrainingDataItem = clerk_user.isSignedIn && !isNew ? [NewTrainingDataSet] : []
 
-  const newTrainingDataItem = clerk_user.isSignedIn ? [NewTrainingDataSet] : []
-  console.log('newTrainingDataItem = ', newTrainingDataItem);
-  const dropdownContents = allCourses.map((playGround) => playGround).concat(newTrainingDataItem);
+  const dropdownContents = newTrainingDataItem.concat(allCourses.map((playground) => playground));
 
-  console.info('clerk_user.isSignedIn = ', JSON.stringify(clerk_user.isSignedIn))
-  console.info('dropdownContents  = ', JSON.stringify(dropdownContents))
   return (
-    <div className={classnames('flex flex-row playgroundContainer')}>
+    <div className={classnames(styles.playgroundContainer, 'flex flex-row')}>
       <div
         ref={wrapperRef}
         tabIndex={0}
@@ -88,7 +85,7 @@ export const PlaygroundSelect = ({ isNew }: { isNew: boolean }) => {
         </div>
         {isOpen && (
           <ul className="menu rounded-box absolute z-[1] w-full bg-base-100 p-2 shadow ">
-            {dropdownContents.map((Playground, index, array) => (
+            {dropdownContents.map((playground, index, array) => (
               <li
                 key={index}
                 className={`dark:text-white ${
@@ -97,8 +94,8 @@ export const PlaygroundSelect = ({ isNew }: { isNew: boolean }) => {
                     : ''
                 }`}
               >
-                <a onClick={() => handlePlaygroundClick(Playground)}>
-                  {Playground}
+                <a onClick={() => handlePlaygroundClick(playground)}>
+                  {playground}
                 </a>
               </li>
             ))}

@@ -385,11 +385,11 @@ export const ChatMessage: FC<Props> = memo(
                         : ''
                     }`}
                   </MemoizedReactMarkdown>
-                  {message.contexts && message.contexts.length > 0 && (
+                  {/* {message.contexts && message.contexts.length > 0 && (
                     <Group variant="row" spacing="xs">
                       <ContextCards contexts={message.contexts} />
                     </Group>
-                  )}
+                  )} */}
                 </div>
 
                 <div className="ml-1 flex flex-col items-center justify-end gap-4 md:-mr-8 md:ml-0 md:flex-row md:items-start md:justify-start md:gap-1">

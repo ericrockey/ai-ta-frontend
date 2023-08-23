@@ -10,6 +10,8 @@ import {
   Paper,
   Input,
   Button,
+  rem,
+  createStyles,
 } from '@mantine/core'
 import { IconLock, IconQuestionMark } from '@tabler/icons-react'
 import { type CourseMetadata } from '~/types/courseMetadata'
@@ -28,6 +30,53 @@ const montserrat = Montserrat({
   weight: '700',
   subsets: ['latin'],
 })
+
+const useStyles = createStyles((theme) => ({
+  wrapper: {
+    position: 'relative',
+    marginBottom: rem(20),
+    maxWidth: '320px',
+    width: '100%',
+  },
+
+  dropzone: {
+    width: '100%',
+    borderWidth: rem(1),
+    paddingBottom: rem(20),
+    height: 'auto',
+    justifyContent: 'center',
+  },
+  button: {
+    width: '100%',
+    border: 'none',
+    outline: 'solid 1.5px',
+    outlineColor: theme.colors.grape[8],
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: theme.spacing.xs,
+    borderRadius: theme.radius.xl,
+    cursor: 'pointer',
+    transition: 'background-color 0.2s ease-in-out',
+    '--btn-text-case': 'none',
+    height: '48px',
+  },
+
+  icon: {
+    color:
+      theme.colorScheme === 'dark'
+        ? theme.colors.dark[3]
+        : theme.colors.gray[4],
+  },
+
+  control: {
+    position: 'absolute',
+    width: rem(250),
+    left: `calc(50% - ${rem(125)})`,
+    bottom: rem(-20),
+  },
+}))
 
 const EditCourseCard = ({
   course_name,
@@ -53,6 +102,7 @@ const EditCourseCard = ({
   const [isIntroMessageUpdated, setIsIntroMessageUpdated] = useState(false)
   const [loadinSpinner, setLoadinSpinner] = useState(false)
 
+  const { classes, theme } = useStyles()
   const checkCourseAvailability = () => {
     const courseExists =
       courseName != '' &&
@@ -152,6 +202,10 @@ const EditCourseCard = ({
     }
   }
 
+  const handleDeleteModel = () => {
+    
+  }
+
   return (
     <Card
       shadow="xs"
@@ -228,14 +282,6 @@ const EditCourseCard = ({
                 }
                 courseMetadata={courseMetadata as CourseMetadata}
                 is_new_course={is_new_course}
-              />
-              <WebScrape
-                is_new_course={is_new_course}
-                courseName={courseName}
-                isDisabled={
-                  is_new_course && (!isCourseAvailable || courseName === '')
-                }
-                current_user_email={current_user_email}
               />
             </Flex>
           </Group>
@@ -325,6 +371,15 @@ const EditCourseCard = ({
                   // is_private={courseMetadata?.is_private || false}
                   // banner_image_s3={courseBannerUrl}
                 />
+                <Group position="center" align="center" onClick={handleDeleteModel}>
+                  <Text
+                    ta="center"
+                    style={{ color: theme.white, fontWeight: 600 }}
+                    size={theme.fontSizes.sm}
+                  >
+                    Delete Model
+                  </Text>
+                </Group>
               </div>
             </div>
           </div>

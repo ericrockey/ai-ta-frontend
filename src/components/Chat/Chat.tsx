@@ -221,6 +221,7 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
               ?.requiredKeys.find((key) => key.key === 'GOOGLE_CSE_ID')?.value,
           })
         }
+        console.log('body = ', body)
         const controller = new AbortController()
         console.log('endPOint = ', endpoint);
         const response = await fetch(endpoint, {
