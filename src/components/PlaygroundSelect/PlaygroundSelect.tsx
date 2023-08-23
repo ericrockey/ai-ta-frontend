@@ -66,9 +66,9 @@ export const PlaygroundSelect = ({ isNew }: { isNew: boolean }) => {
     }
   }, [wrapperRef])
 
-  const newTrainingDataItem = clerk_user.isSignedIn ? [NewTrainingDataSet] : []
+  // const newTrainingDataItem = clerk_user.isSignedIn ? [NewTrainingDataSet] : []
 
-  const dropdownContents = newTrainingDataItem.concat(allCourses.map((playground) => playground));
+  const dropdownContents = [NewTrainingDataSet].concat(allCourses.map((playground) => playground));
 
   return (
     <div className={classnames(styles.playgroundContainer, 'flex flex-row')}>
