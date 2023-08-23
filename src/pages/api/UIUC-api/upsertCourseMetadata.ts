@@ -71,6 +71,7 @@ export const callUpsertCourseMetadata = async (
       is_private = false,
       course_owner = '',
       course_intro_message = '',
+      course_prompt = '',
       banner_image_s3 = '',
       course_admins = ['kvday2@illinois.edu'],
       approved_emails_list = [],
@@ -86,6 +87,7 @@ export const callUpsertCourseMetadata = async (
     url.searchParams.append('course_owner', course_owner)
     url.searchParams.append('banner_image_s3', banner_image_s3)
     url.searchParams.append('course_intro_message', course_intro_message)
+    url.searchParams.append('course_prompt', course_prompt)
     url.searchParams.append('course_admins', JSON.stringify(course_admins))
     url.searchParams.append(
       'approved_emails_list',
