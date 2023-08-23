@@ -12,7 +12,7 @@ const Navbar = ({ course_name = '', isEditing = false, isNew = false }) => {
   return (
     <div className="flex flex-col items-center bg-[#2e026d]">
       <div className={classnames(styles.mainContainer, 'mt-4 w-full')}>
-        <div className="navbar min-h-fit bg-[#15162c]">
+        <div className={classnames(styles.innerNavContainer, 'navbar min-h-fit bg-[#15162c]')}>
           <div className="flex-1">
             <Link href="/">
               <h2 className="ms-8 cursor-pointer text-3xl font-extrabold tracking-tight text-white sm:text-[2rem] ">
@@ -121,8 +121,8 @@ const Navbar = ({ course_name = '', isEditing = false, isNew = false }) => {
                   />
                 </svg>
               </button> */}
-          {isEditing && <PlaygroundSelect isNew />}
-          {!isNew && (
+          {<PlaygroundSelect isNew={isNew} />}
+          {!isNew && course_name !== '' && (
             <Flex direction="row" align="center" justify="center">
               <div className="ms-4 mt-4 flex flex-row items-center justify-center gap-2">
                 <ToggleEdit isEditing={isEditing} course_name={course_name} />

@@ -502,7 +502,7 @@ const PrivateOrPublicCourse = ({
           window.location.origin,
         )
         url.searchParams.append('course_name', course_name)
-
+        console.log('url = ', url)
         const response = await fetch(url.toString(), {
           method: 'POST',
           headers: {
@@ -513,14 +513,14 @@ const PrivateOrPublicCourse = ({
         return data.success
       } catch (error) {
         console.error(
-          'Error changing course from default to not (or vice versa):',
+          'Error changing course from public to private (or vice versa):',
           error,
         )
         return false
       }
     }
 
-    setIsDefault(!isDefault) // react gui
+    setIsDefault(true) // react gui
     callSetCourseDefault(course_name) // db
   }
 

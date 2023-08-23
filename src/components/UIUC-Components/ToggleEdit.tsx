@@ -42,7 +42,7 @@ export function ToggleEdit({ course_name, isEditing }: { course_name?: string, i
     router.push(`/${course_name}/materials`)
   }
   console.info('isEditing = ', isEditing);
-  const label = isEditing ? 'Return to Chat' : 'Add/Edit Training Data';
+  const label = isEditing ? 'Return to Chat' : 'Edit Model';
 
   return (
     <div className={classes.wrapper}>

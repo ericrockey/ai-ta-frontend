@@ -80,7 +80,7 @@ export const PlaygroundSelect = ({ isNew }: { isNew: boolean }) => {
         onBlur={() => setIsOpen(false)}
       >
         <div className={classnames(styles.dropdownLabel, 'flex w-full items-center justify-between bg-transparent p-2')}>
-          Switch Model
+          Choose Model
           <IconChevronDown size={18} />
         </div>
         {isOpen && (
