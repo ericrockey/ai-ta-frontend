@@ -1,8 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import {IconChevronDown } from '@tabler/icons-react'
-import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-import { useUser } from '@clerk/nextjs'
 import classnames from 'classnames';
 
 import styles from './PlaygroundSelect.module.scss'
@@ -10,21 +8,18 @@ import styles from './PlaygroundSelect.module.scss'
 const NewTrainingDataSet = 'New Model'
 
 export const PlaygroundSelect = ({ isNew }: { isNew: boolean }) => {
-  const { t } = useTranslation('chat')
   const [isOpen, setIsOpen] = useState(false)
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const router = useRouter()
-  const clerk_user = useUser()
 
   const handlePlaygroundClick = async (playground: string) => {
     setIsOpen(false)
     if (playground === NewTrainingDataSet) {
       router.push(`/new`)
-      await router.push(router.asPath)
       return
     }
-    router.push(`/${playground}/materials`)
-    await router.push(router.asPath)
+    console.log('setting route to ', `/${playground}`)
+    router.push(`/${playground}`)
   }
 
   const handleClickOutside = (event: MouseEvent) => {
