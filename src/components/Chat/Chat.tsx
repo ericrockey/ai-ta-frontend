@@ -64,7 +64,6 @@ import { fetchContexts } from '~/pages/api/getContexts'
 import { useUser } from '@clerk/nextjs'
 import { extractEmailsFromClerk } from '../UIUC-Components/clerkHelpers'
 import { OpenAIModelID, OpenAIModels } from '~/types/openai'
-import Navbar from '../UIUC-Components/Navbar'
 
 export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
   const { t } = useTranslation('chat')
@@ -501,7 +500,6 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
 
   return (
     <div className="relative flex-1 overflow-hidden bg-white dark:bg-[#343541]">
-      <Navbar/>
       {!(apiKey || serverSideApiKeyIsSet) ? (
         <div className="mx-auto flex h-full w-[300px] flex-col justify-center space-y-6 sm:w-[600px]">
           <div className="text-center text-4xl font-bold text-black dark:text-white">
@@ -618,6 +616,8 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
                       onClick={redirectToMaterialsPage}
                     >
                       <div className="flex items-center">
+                        <span>Models:</span>
+                        {}
                         <span>
                           <Text
                             variant="gradient"

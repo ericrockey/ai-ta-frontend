@@ -71,7 +71,7 @@ const MakeOldCoursePage = ({
   const currentPageName = GetCurrentPageName()
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchMetadata = async () => {
       const userEmail = extractEmailsFromClerk(clerk_user.user)
       setCurrentEmail(userEmail[0] as string)
 
@@ -94,7 +94,7 @@ const MakeOldCoursePage = ({
       }
     }
 
-    fetchData()
+    fetchMetadata()
   }, [currentPageName, clerk_user.isLoaded, clerk_user.user])
 
   useEffect(() => {

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { type NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
+import classnames from 'classnames';
 // import { Montserrat } from 'next/font/google'
 // import { signIn, signOut, useSession } from "next-auth/react";
 
@@ -25,12 +26,13 @@ import SignInPage from '~/pages/sign-in/[[...index]]'
 
 // import { api } from '~/utils/api'
 import Header from '~/components/UIUC-Components/GlobalHeader'
-
+import styles from './index.module.scss'
 const Home: NextPage = () => {
   // const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
   // const user = userUser();
   // const router = useRouter();
+
 
   return (
     <>
@@ -53,7 +55,7 @@ const Home: NextPage = () => {
 
 			</header> */}
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#0E1116]">
-        <div className="container flex flex-col items-center justify-center gap-8 px-4 py-16 ">
+        <div className={classnames(styles.titleContainer, 'container flex flex-col items-center justify-center gap-8 px-4 py-16')}>
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
             {/* <Link href="/"> */}
             Ramona <span className="text-[hsl(280,100%,70%)]">AI</span>

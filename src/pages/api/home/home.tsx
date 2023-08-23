@@ -34,7 +34,7 @@ import { type Prompt } from '@/types/prompt'
 
 import { Chat } from '@/components/Chat/Chat'
 import { Chatbar } from '@/components/Chatbar/Chatbar'
-import { Navbar } from '@/components/Mobile/Navbar'
+import { Navbar as SideBar } from '@/components/Mobile/Navbar'
 import Promptbar from '@/components/Promptbar'
 
 import HomeContext from './home.context'
@@ -47,12 +47,14 @@ import { useUser } from '@clerk/nextjs'
 import { get_user_permission } from '~/components/UIUC-Components/runAuthCheck'
 import { router } from '@trpc/server'
 import { useRouter } from 'next/router'
+import Navbar from '~/components/UIUC-Components/Navbar'
 
 interface Props {
   serverSideApiKeyIsSet: boolean
   serverSidePluginKeysSet: boolean
   defaultModelId: OpenAIModelID
   course_metadata: CourseMetadata
+  course_name: string
 }
 
 const Home = ({
@@ -60,6 +62,7 @@ const Home = ({
   serverSidePluginKeysSet,
   defaultModelId,
   course_metadata,
+  course_name,
 }: Props) => {
   const { t } = useTranslation('chat')
   const { getModels } = useApiService()
@@ -86,8 +89,9 @@ const Home = ({
   const stopConversationRef = useRef<boolean>(false)
 
   const router = useRouter()
-  const course_name = router.query.course_name
-
+  console.log('HOME - course_name = ', course_name);
+  const course_name_from_router = router.query.course_name
+  console.log('course_name_from_router = ',course_name_from_router);
   // Check auth & redirect
   const clerk_user_outer = useUser()
   // const course_exists = course_metadata != null
@@ -428,8 +432,9 @@ const Home = ({
         <main
           className={`flex h-screen w-screen flex-col text-sm text-white dark:text-white ${lightMode}`}
         >
+          <Navbar isEditing={false} isNew={false} course_name={course_name}/>
           <div className="fixed top-0 w-full sm:hidden">
-            <Navbar
+            <SideBar
               selectedConversation={selectedConversation}
               onNewConversation={handleNewConversation}
             />
@@ -510,6 +515,7 @@ export const getServerSideProps: GetServerSideProps = async (
   return {
     props: {
       // ...buildClerkProps(context.req), // https://clerk.com/docs/nextjs/getserversideprops
+      course_name,
       course_metadata: course_metadata,
       serverSideApiKeyIsSet: !!process.env.OPENAI_API_KEY,
       defaultModelId,
