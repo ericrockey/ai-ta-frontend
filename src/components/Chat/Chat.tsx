@@ -201,7 +201,7 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
           model: updatedConversation.model,
           messages: updatedConversation.messages,
           key: apiKey,
-          prompt: updatedConversation.prompt,
+          prompt: courseMetadata.course_prompt || "You are ChatGPT, a large language model trained by OpenAI. Follow the user's instructions carefully. Respond using markdown.",
           temperature: updatedConversation.temperature,
           course_name: getCurrentPageName(),
         }

@@ -30,6 +30,8 @@ const setCourseMetadata = async (req: any, res: any) => {
   const banner_image_s3 = req.nextUrl.searchParams.get('banner_image_s3') || ''
   const course_intro_message =
     req.nextUrl.searchParams.get('course_intro_message') || ''
+  const course_prompt =
+    req.nextUrl.searchParams.get('course_prompt') || ''
 
   try {
     // Fetch existing metadata
@@ -46,6 +48,7 @@ const setCourseMetadata = async (req: any, res: any) => {
       approved_emails_list: approved_emails_list,
       banner_image_s3: banner_image_s3,
       course_intro_message: course_intro_message,
+      course_prompt: course_prompt,
     }
 
     console.log('Right before setting course_metadata with: ', course_metadata)

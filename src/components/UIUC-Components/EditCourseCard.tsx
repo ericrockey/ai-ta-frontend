@@ -90,6 +90,7 @@ const EditCourseCard = ({
   courseMetadata?: CourseMetadata
 }) => {
   const [introMessage, setIntroMessage] = useState('')
+  const [coursePrompt, setCoursePrompt] = useState("You are ChatGPT, a large language model trained by OpenAI. Follow the user's instructions carefully. Respond using markdown.")
   const [courseName, setCourseName] = useState(course_name || '')
   const [isCourseAvailable, setIsCourseAvailable] = useState<
     boolean | undefined
@@ -100,6 +101,7 @@ const EditCourseCard = ({
   const isSmallScreen = useMediaQuery('(max-width: 960px)')
   const [courseBannerUrl, setCourseBannerUrl] = useState('')
   const [isIntroMessageUpdated, setIsIntroMessageUpdated] = useState(false)
+  const [isPromptUpdated, setIsPromptUpdated] = useState(false)
   const [loadinSpinner, setLoadinSpinner] = useState(false)
 
   const { classes, theme } = useStyles()
@@ -203,7 +205,7 @@ const EditCourseCard = ({
   }
 
   const handleDeleteModel = () => {
-    
+
   }
 
   return (
@@ -321,6 +323,42 @@ const EditCourseCard = ({
                           setIsIntroMessageUpdated(false)
                           if (courseMetadata) {
                             courseMetadata.course_intro_message = introMessage
+                            await callUpsertCourseMetadata(
+                              course_name,
+                              courseMetadata,
+                            ) // Update the courseMetadata object
+                          }
+                        }}
+                      >
+                        Submit
+                      </button>
+                    </>
+                  )}
+                </div>
+                <div className="form-control relative">
+                  <label className={`label ${montserrat.className}`}>
+                    <span className="label-text text-lg text-neutral-200">
+                      Prompt to send to ChatGPT
+                    </span>
+                  </label>
+                  <textarea
+                    rows={5}
+                    placeholder="Enter instructions to ChatGPT to help it generate the proper response. The user will not see this"
+                    className={`textarea-bordered textarea w-full border-2 border-violet-800 bg-white text-black hover:border-violet-800 ${montserrat.className}`}
+                    value={coursePrompt}
+                    onChange={(e) => {
+                      setCoursePrompt(e.target.value)
+                      setIsPromptUpdated(true)
+                    }}
+                  />
+                  {isPromptUpdated && (
+                    <>
+                      <button
+                        className="btn-outline btn absolute bottom-0 right-0 m-1 h-[2%] rounded-3xl border-violet-800 py-1 text-violet-800  hover:bg-violet-800 hover:text-white"
+                        onClick={async () => {
+                          setIsPromptUpdated(false)
+                          if (courseMetadata) {
+                            courseMetadata.course_prompt = coursePrompt
                             await callUpsertCourseMetadata(
                               course_name,
                               courseMetadata,
@@ -614,6 +652,7 @@ const PrivateOrPublicCourse = ({
           onEmailAddressesChange={handleEmailAddressesChange}
           course_intro_message={courseMetadata.course_intro_message || ''}
           banner_image_s3={courseMetadata.banner_image_s3 || ''}
+          course_prompt={courseMetadata.course_prompt || ''}
         />
       )}
     </>

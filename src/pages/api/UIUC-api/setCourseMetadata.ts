@@ -28,6 +28,10 @@ const setCourseMetadata = async (req: any, res: any) => {
     req.nextUrl.searchParams.get('approved_emails_list') || '[]',
   )
 
+  const course_prompt = req.nextUrl.searchParams.get(
+    'course_prompt',
+  )
+
   try {
     const course_metadata: CourseMetadata = {
       is_private: is_private,
@@ -37,6 +41,7 @@ const setCourseMetadata = async (req: any, res: any) => {
       approved_emails_list: approved_emails_list,
       course_intro_message: course_intro_message,
       banner_image_s3: banner_image_s3,
+      course_prompt: course_prompt,
     }
     console.log('Right before setting course_metadata with: ', course_metadata)
     await kv.set(course_name + '_metadata', course_metadata)

@@ -16,6 +16,7 @@ interface WebScrapeProps {
   courseName: string
   isDisabled: boolean
   current_user_email: string
+  course_prompt: string
 }
 
 const montserrat = Montserrat({
@@ -45,6 +46,7 @@ export const WebScrape = ({
   courseName,
   isDisabled,
   current_user_email,
+  course_prompt,
 }: WebScrapeProps) => {
   const [isUrlUpdated, setIsUrlUpdated] = useState(false)
   const [url, setUrl] = useState('')
@@ -114,6 +116,7 @@ export const WebScrape = ({
             is_private: undefined,
             banner_image_s3: undefined,
             course_intro_message: undefined,
+            course_prompt: course_prompt,
           })
           router.replace(`/${courseName}/materials`)
         }
@@ -148,6 +151,7 @@ export const WebScrape = ({
             is_private: undefined,
             banner_image_s3: undefined,
             course_intro_message: undefined,
+            course_prompt: course_prompt,
           })
           router.replace(`/${courseName}/materials`)
         }
