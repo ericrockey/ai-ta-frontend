@@ -13,9 +13,18 @@ export const GotoDefaultButton = ({ prompt }: GotoDefaultButtonProps) => {
   useEffect(() => {
     async function fetchDefaultCourse() {
       try {
-        const response = await fetch(
-          '/api/UIUC-api/getDefaultCourse',
+        const url = new URL(
+          '/api/UIUC-api/getCourseDefault',
+          window.location.origin,
         )
+
+        const response = await fetch(url.toString(), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+
         console.log('GotoDefaultButton, fetch res = ', JSON.stringify(response))
         if (response.ok) {
           const data = await response.json()

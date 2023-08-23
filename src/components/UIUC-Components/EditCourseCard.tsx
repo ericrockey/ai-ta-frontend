@@ -519,7 +519,7 @@ const PrivateOrPublicCourse = ({
           defaultChecked={isPrivate}
           onChange={handleIsPrivateChange}
         />
-        {!isDefault && (
+        {!isDefault ? (
           <Checkbox
             label={`Model is ${
               isDefault ? 'default' : 'not default'
@@ -535,7 +535,12 @@ const PrivateOrPublicCourse = ({
             defaultChecked={isPrivate}
             onChange={handleIsDefaultChange}
           />
-        )}
+        ) : (
+          <div className={montserrat.className}>This model is set to be the default</div>
+        )
+      
+      }
+
       </Group>
       {/* </Group>
       <Group className="p-3"> */}
