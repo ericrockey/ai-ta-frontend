@@ -171,56 +171,6 @@ const SupportedFileUploadTypes = () => {
         <code className={classes.codeStyledText}>.srt</code>,{' '}
         <code className={classes.codeStyledText}>.vtt</code>
       </Text>
-
-      <Text size={'lg'} p={rem(20)} className={montserrat_non_bold.className}>
-        Under development...
-      </Text>
-
-      <Flex className="space-x-5">
-        <Image
-          src="/media/github-mark-white.png"
-          width={720}
-          height={100}
-          quality={60}
-          alt="Github logo"
-          className={classes.smallLogos}
-          // style={{mixBlendMode: 'multiply' }}
-        />
-        <Image
-          src="/media/notion_logo.png"
-          width={720}
-          height={100}
-          quality={60}
-          alt="Notion logo"
-          className={classes.smallLogos}
-          // style={{mixBlendMode: 'multiply' }}
-        />
-        <Image
-          src="/media/coursera_logo_cutout.png"
-          width={720}
-          height={100}
-          quality={60}
-          alt="Coursera logo"
-          className={classes.smallLogos}
-          // style={{mixBlendMode: 'multiply' }}
-        />
-        {/* <Image
-          src="/media/mitocw_logo.jpg"
-          width={720}
-          height={100}
-          quality={60}
-          alt="MIT Open Courseware logo"
-          className={classes.smallLogos}
-        /> */}
-        <Image
-          src="/media/canvas_logo.png"
-          width={720}
-          height={100}
-          quality={60}
-          alt="Canvas logo"
-          className={classes.smallLogos}
-        />
-      </Flex>
     </>
   )
 }

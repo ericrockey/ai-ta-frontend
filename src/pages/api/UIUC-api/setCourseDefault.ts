@@ -1,7 +1,7 @@
 import { kv } from '@vercel/kv'
+import { NextResponse } from 'next/server'
 
-// export const runtime = "edge";
-// doesn't seem to work...
+export const runtime = 'edge'
 
 const setCourseAsDefault = async (req: any, res: any) => {
   console.log('the req body:')
@@ -9,12 +9,13 @@ const setCourseAsDefault = async (req: any, res: any) => {
   const { course_name } = req.body
 
   try {
+    console.log('setCourseAsDefault, calling kv.set')
     await kv.set('default_course', course_name)
     console.log('setCourseAsDefault, res = ', JSON.stringify(res))
-    res.status(200).json({ success: true })
+    return NextResponse.json({ success: true })
   } catch (error) {
     console.error(error)
-    res.status(500).json({ success: false })
+    return NextResponse.json({ success: false })
   }
 }
 

@@ -25,11 +25,6 @@ export const PlaygroundSelect = ({ isNew }: { isNew: boolean }) => {
       return
     }
     router.push(`/${playground}/materials`)
-    // selectedConversation &&
-    //   handleUpdateConversation(selectedConversation, {
-    //     key: 'Playground',
-    //     value: Playgrounds.find((Playground) => Playground.id === PlaygroundId),
-    //   })
   }
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -71,14 +66,15 @@ export const PlaygroundSelect = ({ isNew }: { isNew: boolean }) => {
     }
   }, [wrapperRef])
 
-  const dropdownContents = allCourses.map((playGround) => playGround);
 
-  if (clerk_user.isSignedIn) dropdownContents.concat([NewTrainingDataSet]);
+  const newTrainingDataItem = clerk_user.isSignedIn ? [NewTrainingDataSet] : []
+  console.log('newTrainingDataItem = ', newTrainingDataItem);
+  const dropdownContents = allCourses.map((playGround) => playGround).concat(newTrainingDataItem);
+
   console.info('clerk_user.isSignedIn = ', JSON.stringify(clerk_user.isSignedIn))
   console.info('dropdownContents  = ', JSON.stringify(dropdownContents))
   return (
     <div className={classnames('flex flex-row playgroundContainer')}>
-      <div className={styles.dropdownLabel}>Switch Training Data</div>
       <div
         ref={wrapperRef}
         tabIndex={0}
