@@ -33,6 +33,7 @@ export const GotoDefaultButton = ({ prompt }: GotoDefaultButtonProps) => {
             console.error('An error occurred while fetching course metadata')
             return null
           }
+          console.log('success returning getCourseDefault, data = ' , JSON.stringify(data))
           return data.default_course
         } else {
           console.error(`Error fetching course metadata: ${response.status}`)
