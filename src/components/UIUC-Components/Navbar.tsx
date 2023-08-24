@@ -122,7 +122,7 @@ const Navbar = ({ course_name = '', isEditing = false, isNew = false }) => {
                 </svg>
               </button> */}
           {<PlaygroundSelect isNew={isNew} />}
-          {!isNew && course_name !== '' && (
+          {!isNew && course_name !== '' && isEditing && (
             <Flex direction="row" align="center" justify="center">
               <div className="ms-4 mt-4 flex flex-row items-center justify-center gap-2">
                 <ToggleEdit isEditing={isEditing} course_name={course_name} />
