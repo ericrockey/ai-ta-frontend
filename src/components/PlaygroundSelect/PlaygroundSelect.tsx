@@ -79,7 +79,7 @@ export const PlaygroundSelect = ({ isNew }: { isNew: boolean }) => {
           <IconChevronDown size={18} />
         </div>
         {isOpen && (
-          <ul className={classnames(styles.dropdown, 'menu rounded-box absolute z-[1] w-full bg-base-100 p-2 shadow')}>
+          <ul className={classnames(styles.dropdown, 'menu rounded-box absolute w-full bg-base-100 p-2 shadow')}>
             {dropdownContents.map((playground, index, array) => (
               <li
                 key={index}
