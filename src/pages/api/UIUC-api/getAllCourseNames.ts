@@ -15,7 +15,7 @@ const getAllCourseNames = async (req: any, res: any) => {
     for await (const key of kv.scanIterator()) {
       // If the key ends with "_metadata", remove that part
       const courseName = key.endsWith('_metadata') ? key.slice(0, -9) : key
-      all_course_names.add(courseName)
+      if (courseName !== 'default_course') all_course_names.add(courseName)
     }
     console.log(' all_course_names = ', JSON.stringify(all_course_names))
     return NextResponse.json({ all_course_names: Array.from(all_course_names) })

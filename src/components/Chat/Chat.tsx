@@ -477,10 +477,7 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
   const statements = courseMetadata?.course_intro_message
     ? courseMetadata.course_intro_message.split('\n')
     : [
-        'Make a bullet point list of key takeaways of the course.',
-        'What is [your favorite topic] and why is it worth learning about?',
-        'How can I effectively prepare for the upcoming exam?',
-        'How many assignments in the course?',
+        'How do I work with challenging emotions in meditation?',
       ]
 
   // Add this function to create dividers with statements
