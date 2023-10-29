@@ -6,8 +6,8 @@ import { Prompt } from './prompt'
 // keep track of local storage schema
 export interface LocalStorage {
   apiKey: string
-  conversationHistory: Conversation[]
-  selectedConversation: Conversation
+  conversationHistory: Record<string, Conversation[]>
+  selectedConversation: Record<string, Conversation>
   theme: 'light' | 'dark'
   // added folders (3/23/23)
   folders: FolderInterface[]

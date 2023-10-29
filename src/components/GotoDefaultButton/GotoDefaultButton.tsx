@@ -11,7 +11,6 @@ export const GotoDefaultButton = ({ prompt }: GotoDefaultButtonProps) => {
   const [courseDefault, setCourseDefault] = useState<string | null>(null)
 
   useEffect(() => {
-    console.log('about to call fetchCourseDefault')
     async function fetchCourseDefault() {
       try {
         const url = new URL(
@@ -26,14 +25,12 @@ export const GotoDefaultButton = ({ prompt }: GotoDefaultButtonProps) => {
           },
         })
 
-        console.log('GotoDefaultButton, fetch res = ', JSON.stringify(response))
         if (response.ok) {
           const data = await response.json()
           if (data.success === false) {
             console.error('An error occurred while fetching course metadata')
             return null
           }
-          console.log('success returning getCourseDefault, data = ' , JSON.stringify(data))
           return data.course_default
         } else {
           console.error(`Error fetching course metadata: ${response.status}`)
@@ -46,7 +43,6 @@ export const GotoDefaultButton = ({ prompt }: GotoDefaultButtonProps) => {
     }
 
     fetchCourseDefault().then((course_default) => {
-      console.log('defaultCourse = ', course_default)
       setCourseDefault(course_default)
     })
   }, [])
@@ -76,8 +72,6 @@ export const GotoDefaultButton = ({ prompt }: GotoDefaultButtonProps) => {
   }, []);
 
   const handleClick = () => {
-    console.log('GotoDefaultButton click')
-    console.log('courseDefault = ', courseDefault)
     if (courseDefault && courseDefault != '') {
       router.push('/' + courseDefault)
       return

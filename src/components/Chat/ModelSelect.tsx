@@ -11,7 +11,7 @@ export const ModelSelect = () => {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
 
   const {
-    state: { selectedConversation, models, defaultModelId },
+    state: { selectedConversation, models, defaultModelId, ramonaModel },
     handleUpdateConversation,
     dispatch: homeDispatch,
   } = useContext(HomeContext)

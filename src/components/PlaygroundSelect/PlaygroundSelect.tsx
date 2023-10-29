@@ -18,7 +18,6 @@ export const PlaygroundSelect = ({ isNew }: { isNew: boolean }) => {
       router.push(`/new`)
       return
     }
-    console.log('setting route to ', `/${playground}`)
     router.push(`/${playground}`)
   }
 

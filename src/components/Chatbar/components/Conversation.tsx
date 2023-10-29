@@ -22,12 +22,12 @@ import SidebarActionButton from '@/components/Buttons/SidebarActionButton'
 import ChatbarContext from '@/components/Chatbar/Chatbar.context'
 
 interface Props {
-  conversation: Conversation
+  conversation: Conversation,
 }
 
-export const ConversationComponent = ({ conversation }: Props) => {
+export const ConversationComponent = ({ conversation  }: Props) => {
   const {
-    state: { selectedConversation, messageIsStreaming },
+    state: { selectedConversation, messageIsStreaming, ramonaModel },
     handleSelectConversation,
     handleUpdateConversation,
   } = useContext(HomeContext)
@@ -54,7 +54,8 @@ export const ConversationComponent = ({ conversation }: Props) => {
     }
   }
 
-  const handleRename = (conversation: Conversation) => {
+  const handleRename = (conversation: Conversation | undefined) => {
+    if (!conversation) return;
     if (renameValue.trim().length > 0) {
       handleUpdateConversation(conversation, {
         key: 'name',
@@ -85,7 +86,7 @@ export const ConversationComponent = ({ conversation }: Props) => {
   const handleOpenRenameModal: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation()
     setIsRenaming(true)
-    selectedConversation && setRenameValue(selectedConversation.name)
+    selectedConversation && setRenameValue(selectedConversation?.name || '')
   }
   const handleOpenDeleteModal: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation()

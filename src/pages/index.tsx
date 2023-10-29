@@ -37,7 +37,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Ramona</title>
+        <title>AI-TA</title>
         <meta
           name="description"
           content="The UM teaching assistant."
@@ -45,7 +45,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* "My user" login button */}
-      <Navbar isEditing={false} isNew={false} course_name={''}/>
+      <Navbar isEditing={false} isNew={false} ramonaModel={''}/>
       {/* <header style={{ backgroundColor: '#2e026d', display: 'flex', justifyContent: 'flex-end', padding: '1em'}}>
 				<UserButton
           afterSignOutUrl="/"
@@ -58,7 +58,7 @@ const Home: NextPage = () => {
         <div className={classnames(styles.titleContainer, 'container flex flex-col items-center justify-center gap-8 px-4 py-16')}>
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
             {/* <Link href="/"> */}
-            Ramona <span className="text-[hsl(280,100%,70%)]">AI</span>
+            AI-TA
             {/* </Link> */}
           </h1>
 

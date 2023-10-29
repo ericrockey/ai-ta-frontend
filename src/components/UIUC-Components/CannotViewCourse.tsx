@@ -97,11 +97,6 @@ export const CannotViewCourse = ({
   ) {
     // CAN view course
     // Cannot edit course
-    console.log('CAN view course, cannot EDIT course')
-    console.log('curr_user_email: ', curr_user_email)
-    console.log('courseMetadata.course_owner: ', courseMetadata.course_owner)
-    console.log('courseMetadata.course_admins: ', courseMetadata.course_admins)
-
     return (
       <>
         <CannotEditCourse course_name={GetCurrentPageName()} />
@@ -116,11 +111,8 @@ export const CannotViewCourse = ({
         <div className="container flex flex-col items-center justify-center gap-8 px-4 py-8 ">
           <Link href="/">
             <h2 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-              {' '}
-              Ramona{' '}
-              <span className="${inter.style.fontFamily} text-[hsl(280,100%,70%)]">
-                AI
-              </span>{' '}
+            {' '}
+              AI-TA{' '}
             </h2>
           </Link>
         </div>

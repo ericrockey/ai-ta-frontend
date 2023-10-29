@@ -14,6 +14,7 @@ import {
   useEffect,
   useRef,
   useState,
+  useMemo,
 } from 'react'
 import toast from 'react-hot-toast'
 import { Text } from '@mantine/core'
@@ -23,9 +24,9 @@ import { getEndpoint } from '@/utils/app/api'
 import {
   saveConversation,
   saveConversations,
-  updateConversation,
 } from '@/utils/app/conversation'
 import { throttle } from '@/utils/data/throttle'
+import { v4 as uuidv4 } from 'uuid'
 
 import {
   ContextWithMetadata,
@@ -56,6 +57,7 @@ import { type CourseMetadata } from '~/types/courseMetadata'
 interface Props {
   stopConversationRef: MutableRefObject<boolean>
   courseMetadata: CourseMetadata
+  defaultModelId: OpenAIModelID
 }
 
 import { useRouter } from 'next/router'
@@ -64,9 +66,9 @@ import { fetchContexts } from '~/pages/api/getContexts'
 import { useUser } from '@clerk/nextjs'
 import { extractEmailsFromClerk } from '../UIUC-Components/clerkHelpers'
 import { OpenAIModelID, OpenAIModels } from '~/types/openai'
-import { DEFAULT_SYSTEM_PROMPT } from '~/utils/app/const'
+import { DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE } from '~/utils/app/const'
 
-export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
+export const Chat = memo(({ stopConversationRef, courseMetadata, defaultModelId }: Props) => {
   const { t } = useTranslation('chat')
 
   const clerk_obj = useUser()
@@ -74,22 +76,18 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
   // how to get the current route inside ANY component
   const router = useRouter()
   const [bannerUrl, setBannerUrl] = useState<string | null>(null)
-  const getCurrentPageName = () => {
+  const currentPageName = useMemo(() => {
     // /CS-125/materials --> CS-125
     return router.asPath.slice(1).split('/')[0] as string
-  }
-
-  const [currentPage, setCurrentPage] = useState<string>(getCurrentPageName());
+  }, [router]);
 
   const redirectToMaterialsPage = () => {
-    router.push(`/${getCurrentPageName()}/materials`)
+    router.push(`/${currentPageName}/materials`)
   }
 
   useEffect(() => {
     if (courseMetadata?.banner_image_s3) {
-      console.log('Fetching course banner url')
       fetchPresignedUrl(courseMetadata.banner_image_s3).then((url) => {
-        console.log('Setting course banner url')
         setBannerUrl(url)
       })
     }
@@ -97,27 +95,25 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
 
   const {
     state: {
-      selectedConversation,
       conversations,
+      selectedConversation,
+      modelConversations,
+      ramonaModel,
       models,
       apiKey,
       pluginKeys,
       serverSideApiKeyIsSet,
-      messageIsStreaming,
       modelError,
       loading,
       prompts,
     },
+    handleNewConversation,
     handleUpdateConversation,
+    handleUpdateConversations,
+    handleUpdateSelected,
     dispatch: homeDispatch,
+    setRamonaModel,
   } = useContext(HomeContext)
-
-  useEffect(() => {
-    if (currentPage) {
-      
-    }
-  })
-
   const [currentMessage, setCurrentMessage] = useState<Message>()
   const [autoScrollEnabled, setAutoScrollEnabled] = useState<boolean>(true)
   const [showSettings, setShowSettings] = useState<boolean>(false)
@@ -128,6 +124,18 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
   const chatContainerRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
+  useEffect(() => {
+    if (ramonaModel !== currentPageName) {
+      setRamonaModel(currentPageName)
+    }
+  }, [ramonaModel, currentPageName])
+
+  useEffect(() => {
+    if (modelConversations === undefined && ramonaModel !== '') {
+      handleNewConversation();
+    }
+  }, [handleNewConversation, modelConversations, ramonaModel])
+
   const onMessageReceived = async (conversation: Conversation) => {
     // Kastan here -- Save the message to a separate database here
     try {
@@ -137,7 +145,7 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          course_name: getCurrentPageName(),
+          course_name: currentPageName,
           conversation: conversation,
         }),
       })
@@ -157,39 +165,36 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
       // console.log('IN handleSend: ', message)
       // setSearchQuery(message.content)
       const searchQuery = message.content
-
       if (selectedConversation) {
-        let updatedConversation: Conversation
+        let updatedSelectedConv: Conversation
         if (deleteCount) {
           const updatedMessages = [...selectedConversation.messages]
           for (let i = 0; i < deleteCount; i++) {
             updatedMessages.pop()
           }
-          updatedConversation = {
+          updatedSelectedConv = {
             ...selectedConversation,
             messages: [...updatedMessages, message],
           }
         } else {
-          updatedConversation = {
+          updatedSelectedConv = {
             ...selectedConversation,
             messages: [...selectedConversation.messages, message],
           }
         }
-        homeDispatch({
-          field: 'selectedConversation',
-          value: updatedConversation,
-        })
+        saveConversation(homeDispatch, updatedSelectedConv);
+
         homeDispatch({ field: 'loading', value: true })
         homeDispatch({ field: 'messageIsStreaming', value: true })
 
         // Run context search, attach to Message object.
-        if (getCurrentPageName() != 'gpt4') {
+        if (currentPageName != 'gpt4') {
           // THE ONLY place we fetch contexts (except ExtremePromptStuffing is still in api/chat.ts)
           const token_limit =
             OpenAIModels[selectedConversation?.model.id as OpenAIModelID]
               .tokenLimit
           await fetchContexts(
-            getCurrentPageName(),
+            currentPageName,
             searchQuery,
             token_limit,
           ).then((curr_contexts) => {
@@ -198,15 +203,13 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
         }
 
         const chatBody: ChatBody = {
-          model: updatedConversation.model,
-          messages: updatedConversation.messages,
+          model: updatedSelectedConv.model,
+          messages: updatedSelectedConv.messages,
           key: apiKey,
           prompt: courseMetadata.course_prompt || DEFAULT_SYSTEM_PROMPT,
-          temperature: updatedConversation.temperature,
-          course_name: getCurrentPageName(),
+          temperature: updatedSelectedConv.temperature,
+          course_name: currentPageName,
         }
-        console.log('courseMetadata = ', JSON.stringify(courseMetadata))
-        console.log('chatbody = ', chatBody);
         const endpoint = getEndpoint(plugin) // THIS is where we could support EXTREME prompt stuffing.
         let body
         if (!plugin) {
@@ -222,9 +225,7 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
               ?.requiredKeys.find((key) => key.key === 'GOOGLE_CSE_ID')?.value,
           })
         }
-        console.log('body = ', body)
         const controller = new AbortController()
-        console.log('endPOint = ', endpoint);
         const response = await fetch(endpoint, {
           method: 'POST',
           headers: {
@@ -246,12 +247,12 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
           return
         }
         if (!plugin) {
-          if (updatedConversation.messages.length === 1) {
+          if (updatedSelectedConv.messages.length === 1) {
             const { content } = message
             const customName =
               content.length > 30 ? content.substring(0, 30) + '...' : content
-            updatedConversation = {
-              ...updatedConversation,
+              updatedSelectedConv = {
+              ...updatedSelectedConv,
               name: customName,
             }
           }
@@ -275,25 +276,22 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
               // isFirst refers to the first chunk of data received from the API (happens once for each new message from API)
               isFirst = false
               const updatedMessages: Message[] = [
-                ...updatedConversation.messages,
+                ...updatedSelectedConv.messages,
                 {
                   role: 'assistant',
                   content: chunkValue,
                   contexts: message.contexts,
                 },
               ]
-              updatedConversation = {
-                ...updatedConversation,
+              updatedSelectedConv = {
+                ...updatedSelectedConv,
                 messages: updatedMessages,
               }
-              homeDispatch({
-                field: 'selectedConversation',
-                value: updatedConversation,
-              })
+              homeDispatch({ field: 'selectedConversation', value: updatedSelectedConv });
             } else {
               const updatedMessages: Message[] =
-                updatedConversation.messages.map((message, index) => {
-                  if (index === updatedConversation.messages.length - 1) {
+                updatedSelectedConv.messages.map((message, index) => {
+                  if (index === updatedSelectedConv.messages.length - 1) {
                     return {
                       ...message,
                       content: text,
@@ -302,70 +300,36 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
                   }
                   return message
                 })
-              updatedConversation = {
-                ...updatedConversation,
-                messages: updatedMessages,
-              }
-              homeDispatch({
-                field: 'selectedConversation',
-                value: updatedConversation,
-              })
+                updatedSelectedConv = {
+                  ...updatedSelectedConv,
+                  messages: updatedMessages,
+                }
+                homeDispatch({ field: 'selectedConversation', value: updatedSelectedConv });
             }
           }
-          saveConversation(updatedConversation)
+          saveConversation(homeDispatch, updatedSelectedConv);
           // todo: add clerk user info to onMessagereceived for logging.
           if (clerk_obj.isLoaded && clerk_obj.isSignedIn) {
-            console.log('clerk_obj.isLoaded && clerk_obj.isSignedIn')
             const emails = extractEmailsFromClerk(clerk_obj.user)
-            updatedConversation.user_email = emails[0]
-            onMessageReceived(updatedConversation) // kastan here, trying to save message AFTER done streaming. This only saves the user message...
+            updatedSelectedConv.user_email = emails[0]
+            onMessageReceived(updatedSelectedConv) // kastan here, trying to save message AFTER done streaming. This only saves the user message...
           } else {
-            console.log('NOT LOADED OR SIGNED IN')
-            onMessageReceived(updatedConversation)
+            onMessageReceived(updatedSelectedConv)
           }
 
-          const updatedConversations: Conversation[] = conversations.map(
-            (conversation) => {
-              if (conversation.id === selectedConversation.id) {
-                return updatedConversation
-              }
-              return conversation
-            },
-          )
-          if (updatedConversations.length === 0) {
-            updatedConversations.push(updatedConversation)
-          }
-          homeDispatch({ field: 'conversations', value: updatedConversations })
-          saveConversations(updatedConversations)
+          handleUpdateSelected(updatedSelectedConv);
           homeDispatch({ field: 'messageIsStreaming', value: false })
         } else {
           const { answer } = await response.json()
           const updatedMessages: Message[] = [
-            ...updatedConversation.messages,
+            ...updatedSelectedConv.messages,
             { role: 'assistant', content: answer, contexts: message.contexts },
           ]
-          updatedConversation = {
-            ...updatedConversation,
+          updatedSelectedConv = {
+            ...updatedSelectedConv,
             messages: updatedMessages,
           }
-          homeDispatch({
-            field: 'selectedConversation',
-            value: updatedConversation,
-          })
-          saveConversation(updatedConversation)
-          const updatedConversations: Conversation[] = conversations.map(
-            (conversation) => {
-              if (conversation.id === selectedConversation.id) {
-                return updatedConversation
-              }
-              return conversation
-            },
-          )
-          if (updatedConversations.length === 0) {
-            updatedConversations.push(updatedConversation)
-          }
-          homeDispatch({ field: 'conversations', value: updatedConversations })
-          saveConversations(updatedConversations)
+          handleUpdateSelected(updatedSelectedConv);
           homeDispatch({ field: 'loading', value: false })
           homeDispatch({ field: 'messageIsStreaming', value: false })
         }
@@ -374,6 +338,8 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
     [
       apiKey,
       conversations,
+      modelConversations,
+      selectedConversation,
       pluginKeys,
       selectedConversation,
       stopConversationRef,
@@ -564,13 +530,14 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
                         <Spinner size="16px" className="mx-auto" />
                       </div>
                     ) : (
-                      'Ramona'
+                      'AI-TA'
                     )}
                   </div>
 
                   {models.length > 0 && (
                     <div className="flex h-full flex-col space-y-4 rounded-3xl p-4 focus:border-t-info/100 dark:border-neutral-600">
                       <ModelParams
+                        ramonaModel={ramonaModel}
                         selectedConversation={selectedConversation}
                         prompts={prompts}
                         handleUpdateConversation={handleUpdateConversation}
@@ -640,7 +607,7 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
                 )}
                 <CustomBanner bannerUrl={bannerUrl as string} />{' '}
                 {/* Banner on "chat with messages" page (not fresh chat) */}
-                {selectedConversation?.messages.map((message, index) => (
+                {selectedConversation?.messages.length && selectedConversation?.messages.map((message, index) => (
                   <MemoizedChatMessage
                     key={index}
                     message={message}
@@ -650,7 +617,7 @@ export const Chat = memo(({ stopConversationRef, courseMetadata }: Props) => {
                       // discard edited message and the ones that come after then resend
                       handleSend(
                         editedMessage,
-                        selectedConversation?.messages.length - index,
+                        selectedConversation?.messages.length ?? 0 - index,
                       )
                     }}
                   />

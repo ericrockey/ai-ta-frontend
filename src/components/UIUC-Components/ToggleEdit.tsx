@@ -28,21 +28,20 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-export function ToggleEdit({ course_name, isEditing }: { course_name?: string, isEditing?: boolean }) {
+export function ToggleEdit({ ramonaModel, isEditing }: { ramonaModel?: string, isEditing?: boolean }) {
   const router = useRouter()
   const { classes, theme } = useStyles()
   const [isLoading, setIsLoading] = useState(false)
 
   const handleClick = () => {
     setIsLoading(true)
-    if (course_name === '') return
+    if (ramonaModel === '') return
     if (isEditing) {
-      router.push(`/${course_name}/gpt4`)
+      router.push(`/${ramonaModel}/gpt4`)
       return
     }
-    router.push(`/${course_name}/materials`)
+    router.push(`/${ramonaModel}/materials`)
   }
-  console.info('isEditing = ', isEditing);
   const label = isEditing ? 'Return to Chat' : 'Edit Model';
 
   return (

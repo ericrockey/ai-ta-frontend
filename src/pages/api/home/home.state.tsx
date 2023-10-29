@@ -14,7 +14,8 @@ export interface HomeInitialState {
   modelError: ErrorMessage | null
   models: OpenAIModel[]
   folders: FolderInterface[]
-  conversations: Conversation[]
+  conversations: Record<string, Conversation[]>
+  modelConversations: Conversation[]
   selectedConversation: Conversation | undefined
   currentMessage: Message | undefined
   prompts: Prompt[]
@@ -28,6 +29,7 @@ export interface HomeInitialState {
   serverSideApiKeyIsSet: boolean
   serverSidePluginKeysSet: boolean
   cooldown: number
+  ramonaModel: string
 }
 
 export const initialState: HomeInitialState = {
@@ -39,7 +41,8 @@ export const initialState: HomeInitialState = {
   modelError: null,
   models: [],
   folders: [],
-  conversations: [],
+  conversations: {},
+  modelConversations: [],
   selectedConversation: undefined,
   currentMessage: undefined,
   prompts: [], // TODO: Add default prompts here :)
@@ -53,4 +56,5 @@ export const initialState: HomeInitialState = {
   serverSideApiKeyIsSet: false,
   serverSidePluginKeysSet: false,
   cooldown: 0,
+  ramonaModel: '',
 }

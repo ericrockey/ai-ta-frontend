@@ -20,6 +20,7 @@ import { DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE } from '@/utils/app/const'
 import {
   saveConversation,
   saveConversations,
+  saveModelConversations,
   updateConversation,
 } from '@/utils/app/conversation'
 import { saveFolders } from '@/utils/app/folders'
@@ -54,7 +55,7 @@ interface Props {
   serverSidePluginKeysSet: boolean
   defaultModelId: OpenAIModelID
   course_metadata: CourseMetadata
-  course_name: string
+  ramonaModel: string
 }
 
 const Home = ({
@@ -62,7 +63,7 @@ const Home = ({
   serverSidePluginKeysSet,
   defaultModelId,
   course_metadata,
-  course_name,
+  ramonaModel,
 }: Props) => {
   const { t } = useTranslation('chat')
   const { getModels } = useApiService()
@@ -79,19 +80,19 @@ const Home = ({
       lightMode,
       folders,
       conversations,
+      modelConversations,
       selectedConversation,
       prompts,
       temperature,
+      ramonaModel: ramonaModelState,
     },
     dispatch,
   } = contextValue
-
   const stopConversationRef = useRef<boolean>(false)
 
   const router = useRouter()
-  console.log('HOME - course_name = ', course_name);
-  const course_name_from_router = router.query.course_name
-  console.log('course_name_from_router = ',course_name_from_router);
+
+  const ramonaModel_from_router = router.query.ramonaModel
   // Check auth & redirect
   const clerk_user_outer = useUser()
   // const course_exists = course_metadata != null
@@ -112,12 +113,12 @@ const Home = ({
           // ✅ AUTHED
         } else {
           // 🚫 NOT AUTHED
-          router.push(`/${course_name}/not_authorized`)
+          router.push(`/${ramonaModel}/not_authorized`)
         }
       } else {
         // 🆕 MAKE A NEW COURSE
         console.log('Course does not exist, redirecting to materials page')
-        router.push(`/${course_name}/materials`)
+        router.push(`/${ramonaModel}/materials`)
       }
     }
   }, [clerk_user_outer.isLoaded])
@@ -129,13 +130,21 @@ const Home = ({
   // Add a new state variable to track whether models have been fetched
   const [modelsFetched, setModelsFetched] = useState(false)
 
+  // Update ramonaModel in state if different
+  useEffect(() => {  
+    if (ramonaModel !== ramonaModelState) {
+      setRamonaModel(ramonaModel);
+    }
+  }, [ramonaModel, ramonaModelState]);
+
   // Update the useEffect hook to fetch models only if they haven't been fetched before
   useEffect(() => {
     if (!apiKey && !serverSideApiKeyIsSet) {
       return
     }
-    if (modelsFetched) return // Add this line to prevent fetching models multiple times
-
+    if (modelsFetched) {
+      return // Add this line to prevent fetching models multiple times
+    }
     const fetchData = async () => {
       try {
         const data = await getModels({ key: apiKey })
@@ -170,9 +179,9 @@ const Home = ({
     dispatch({
       field: 'selectedConversation',
       value: conversation,
-    })
+    });
 
-    saveConversation(conversation)
+    saveConversation(dispatch, conversation);
   }
 
   // FOLDER OPERATIONS  --------------------------------------------
@@ -180,6 +189,7 @@ const Home = ({
   const handleCreateFolder = (name: string, type: FolderType) => {
     const newFolder: FolderInterface = {
       id: uuidv4(),
+      ramonaModel,
       name,
       type,
     }
@@ -195,7 +205,7 @@ const Home = ({
     dispatch({ field: 'folders', value: updatedFolders })
     saveFolders(updatedFolders)
 
-    const updatedConversations: Conversation[] = conversations.map((c) => {
+    const updatedModelConversations: Conversation[] = conversations[ramonaModel].map((c) => {
       if (c.folderId === folderId) {
         return {
           ...c,
@@ -204,10 +214,11 @@ const Home = ({
       }
 
       return c
-    })
+    });
 
-    dispatch({ field: 'conversations', value: updatedConversations })
-    saveConversations(updatedConversations)
+    const updatedConversations = {...conversations};
+    updatedConversations[ramonaModel] = updatedModelConversations;
+    saveConversations(dispatch, updatedConversations)
 
     const updatedPrompts: Prompt[] = prompts.map((p) => {
       if (p.folderId === folderId) {
@@ -220,8 +231,7 @@ const Home = ({
       return p
     })
 
-    dispatch({ field: 'prompts', value: updatedPrompts })
-    savePrompts(updatedPrompts)
+    savePrompts(dispatch, updatedPrompts);
   }
 
   const handleUpdateFolder = (folderId: string, name: string) => {
@@ -244,8 +254,7 @@ const Home = ({
   // CONVERSATION OPERATIONS  --------------------------------------------
 
   const handleNewConversation = () => {
-    const lastConversation = conversations[conversations.length - 1]
-
+    const lastConversation = modelConversations && modelConversations.length > 0 ? modelConversations[modelConversations.length - 1] : null;
     const newConversation: Conversation = {
       id: uuidv4(),
       name: t('New Conversation'),
@@ -260,14 +269,16 @@ const Home = ({
       temperature: lastConversation?.temperature ?? DEFAULT_TEMPERATURE,
       folderId: null,
     }
+    const savedConversations = localStorage.getItem('conversationHistory');
+    const savedConversationsParsed = savedConversations ? JSON.parse(savedConversations) : null;
+    const savedModelConversations = savedConversationsParsed && savedConversationsParsed[ramonaModel] ? savedConversationsParsed[ramonaModel] : [];
+    const updatedModelConversations = [...savedModelConversations, newConversation];
+    const updatedConversations = savedConversations ? JSON.parse(savedConversations) : { [ramonaModel]: updatedModelConversations};
+    updatedConversations[ramonaModel] = updatedModelConversations;
 
-    const updatedConversations = [...conversations, newConversation]
-
-    dispatch({ field: 'selectedConversation', value: newConversation })
-    dispatch({ field: 'conversations', value: updatedConversations })
-
-    saveConversation(newConversation)
-    saveConversations(updatedConversations)
+    saveConversation(dispatch, newConversation);
+    saveConversations(dispatch, updatedConversations);
+    saveModelConversations(dispatch, updatedModelConversations)
 
     dispatch({ field: 'loading', value: false })
   }
@@ -279,15 +290,70 @@ const Home = ({
     const updatedConversation = {
       ...conversation,
       [data.key]: data.value,
-    }
+    };
 
-    const { single, all } = updateConversation(
+    updateConversation(
+      dispatch,
+      ramonaModel,
       updatedConversation,
       conversations,
     )
+  }
 
-    dispatch({ field: 'selectedConversation', value: single })
-    dispatch({ field: 'conversations', value: all })
+  const handleUpdateConversations = (
+    modelConversations: Conversation[],
+  ) => {
+    const updatedConversations = {...conversations};
+    updatedConversations[ramonaModel] = modelConversations;
+    saveConversations(dispatch, updatedConversations);
+    saveModelConversations(dispatch, modelConversations);
+  }
+
+  const handleLoadConversations = (ramonaModel: string) => {
+    const savedConversations = localStorage.getItem('conversationHistory');
+    let updatedConversations;
+    if (savedConversations) {
+      const parsedConversationHistory: Record<string, Conversation[]> =
+        JSON.parse(savedConversations)
+      const cleanedConversationHistory = cleanConversationHistory(
+        parsedConversationHistory,
+      )
+      updatedConversations = savedConversations ? JSON.parse(savedConversations) : {};
+      dispatch({ field: 'conversations', value: updatedConversations });
+    }
+    const modelConversations = updatedConversations[ramonaModel] ? updatedConversations[ramonaModel] : null;
+    if (modelConversations && modelConversations.length > 0) {
+      saveConversation(dispatch, modelConversations[modelConversations.length - 1]);
+    } else {
+      handleNewConversation();
+    }
+  }
+
+  const handleUpdateSelected = (
+    updatedSelectedConv: Conversation,
+  ) => {
+    let foundConv = false;
+    const updatedModelConvs: Conversation[] = modelConversations ? modelConversations.map(
+      (conversation) => {
+        if (conversation.id === updatedSelectedConv?.id) {
+          foundConv = true;
+          return updatedSelectedConv
+        }
+        return conversation
+      },
+    ) : [updatedSelectedConv];
+
+    if (updatedModelConvs.length === 0 || !foundConv) {
+      updatedModelConvs.push(updatedSelectedConv)
+    }
+    saveConversation(dispatch, updatedSelectedConv);
+    handleUpdateConversations(updatedModelConvs);
+  };
+
+  const setRamonaModel = (model: string) => {
+    dispatch({ field: 'ramonaModel', value: model });
+    handleLoadConversations(model);
+
   }
 
   // EFFECTS  --------------------------------------------
@@ -366,45 +432,6 @@ const Home = ({
     if (prompts) {
       dispatch({ field: 'prompts', value: JSON.parse(prompts) })
     }
-
-    const conversationHistory = localStorage.getItem('conversationHistory')
-    if (conversationHistory) {
-      const parsedConversationHistory: Conversation[] =
-        JSON.parse(conversationHistory)
-      const cleanedConversationHistory = cleanConversationHistory(
-        parsedConversationHistory,
-      )
-
-      dispatch({ field: 'conversations', value: cleanedConversationHistory })
-    }
-
-    const selectedConversation = localStorage.getItem('selectedConversation')
-    if (selectedConversation) {
-      const parsedSelectedConversation: Conversation =
-        JSON.parse(selectedConversation)
-      const cleanedSelectedConversation = cleanSelectedConversation(
-        parsedSelectedConversation,
-      )
-
-      dispatch({
-        field: 'selectedConversation',
-        value: cleanedSelectedConversation,
-      })
-    } else {
-      const lastConversation = conversations[conversations.length - 1]
-      dispatch({
-        field: 'selectedConversation',
-        value: {
-          id: uuidv4(),
-          name: t('New Conversation'),
-          messages: [],
-          model: OpenAIModels[defaultModelId],
-          prompt: DEFAULT_SYSTEM_PROMPT,
-          temperature: lastConversation?.temperature ?? DEFAULT_TEMPERATURE,
-          folderId: null,
-        },
-      })
-    }
   }, [defaultModelId, dispatch, serverSideApiKeyIsSet, serverSidePluginKeysSet])
 
   return (
@@ -416,11 +443,15 @@ const Home = ({
         handleDeleteFolder,
         handleUpdateFolder,
         handleSelectConversation,
+        handleUpdateSelected,
         handleUpdateConversation,
+        handleUpdateConversations,
+        handleLoadConversations,
+        setRamonaModel,
       }}
     >
       <Head>
-        <title>Ramona</title>
+        <title>AI-TA</title>
         <meta name="description" content="Learn Meditation." />
         <meta
           name="viewport"
@@ -428,11 +459,11 @@ const Home = ({
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {selectedConversation && (
+      {(
         <main
           className={`flex h-screen w-screen flex-col text-sm text-white dark:text-white ${lightMode}`}
         >
-          <Navbar isEditing={false} isNew={false} course_name={course_name}/>
+          <Navbar isEditing={false} isNew={false} ramonaModel={ramonaModel}/>
           <div className="fixed top-0 w-full sm:hidden">
             <SideBar
               selectedConversation={selectedConversation}
@@ -447,6 +478,7 @@ const Home = ({
               <Chat
                 stopConversationRef={stopConversationRef}
                 courseMetadata={course_metadata}
+                defaultModelId={defaultModelId}
               />
             </div>
 
@@ -470,15 +502,13 @@ export default Home
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext,
 ) => {
-  console.log('ServerSideProps: ', context.params)
   const { locale } = context
-  const course_name = context.params?.course_name as string
-
+  const ramonaModel = context.params?.course_name as string
   // Check course authed users -- the JSON.parse is CRUCIAL to avoid bugs with the stringified JSON 😭
+
   const course_metadata: CourseMetadata =  (await kv.get(
-    course_name + '_metadata',
+    ramonaModel + '_metadata',
   )) as CourseMetadata
-  console.log('course_metadata = ', JSON.stringify(course_metadata))
   // TODO: FIX THIS PARSE DOESN'T SEEM RIGHT
   //   if (course_metadata && course_metadata.is_private) {
   //   course_metadata.is_private = typeof course_metadata.is_private === 'string'
@@ -515,7 +545,7 @@ export const getServerSideProps: GetServerSideProps = async (
   return {
     props: {
       // ...buildClerkProps(context.req), // https://clerk.com/docs/nextjs/getserversideprops
-      course_name,
+      ramonaModel,
       course_metadata: course_metadata,
       serverSideApiKeyIsSet: !!process.env.OPENAI_API_KEY,
       defaultModelId,

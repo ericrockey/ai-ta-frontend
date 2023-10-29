@@ -7,6 +7,7 @@ export const getSettings = (): Settings => {
     theme: 'dark',
     cooldown: 0,
   }
+  if (typeof window === 'undefined') return { theme: 'dark', cooldown: 1 };
   const settingsJson = localStorage.getItem(STORAGE_KEY)
   if (settingsJson) {
     try {

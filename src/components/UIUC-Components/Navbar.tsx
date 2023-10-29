@@ -8,15 +8,17 @@ import { PlaygroundSelect } from '../PlaygroundSelect/PlaygroundSelect'
 
 import styles from './Navbar.module.scss'
 
-const Navbar = ({ course_name = '', isEditing = false, isNew = false }) => {
+const Navbar = ({ ramonaModel = '', isEditing = false, isNew = false }) => {
   return (
     <div className="flex flex-col items-center bg-[#2e026d]">
       <div className={classnames(styles.mainContainer, 'mt-4 w-full')}>
         <div className={classnames(styles.innerNavContainer, 'navbar min-h-fit bg-[#15162c]')}>
           <div className="flex-1">
             <Link href="/">
-              <h2 className="ms-8 cursor-pointer text-3xl font-extrabold tracking-tight text-white sm:text-[2rem] ">
-                Ramona <span className="text-[hsl(280,100%,70%)]">AI</span>
+              <h2 className="text-5xl font-extrabold tracking-tight text-white sm:text-[3rem]">
+              <span className={classnames(styles.title, "${inter.style.fontFamily} text-[hsl(280,100%,70%)]")}>
+                AI-TA
+              </span>
               </h2>
             </Link>
           </div>
@@ -73,7 +75,7 @@ const Navbar = ({ course_name = '', isEditing = false, isNew = false }) => {
                       .children[0] as HTMLElement
                   ).style.stroke = 'currentColor'
                 }}
-                onClick={() => router.push(`/${course_name}/gpt4`)}
+                onClick={() => router.push(`/${ramonaModel}/gpt4`)}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -122,10 +124,10 @@ const Navbar = ({ course_name = '', isEditing = false, isNew = false }) => {
                 </svg>
               </button> */}
           {<PlaygroundSelect isNew={isNew} />}
-          {!isNew && course_name !== '' && isEditing && (
+          {!isNew && ramonaModel !== '' && isEditing && (
             <Flex direction="row" align="center" justify="center">
               <div className="ms-4 mt-4 flex flex-row items-center justify-center gap-2">
-                <ToggleEdit isEditing={isEditing} course_name={course_name} />
+                <ToggleEdit isEditing={isEditing} ramonaModel={ramonaModel} />
               </div>
             </Flex>
           )}

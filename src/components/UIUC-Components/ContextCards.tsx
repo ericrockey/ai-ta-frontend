@@ -101,7 +101,6 @@ function DynamicMaterialsCard(context: ContextWithMetadata) {
       'Context.url',
       context.url,
     )
-    console.log('Context.url', context.url)
     if (context.url != '' && context.url != null) {
       console.log('SETTING CONTEXT URL', context.url)
       setPresignedUrl(context.url)

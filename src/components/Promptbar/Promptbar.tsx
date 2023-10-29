@@ -56,17 +56,14 @@ const Promptbar = () => {
 
       const updatedPrompts = [...prompts, newPrompt]
 
-      homeDispatch({ field: 'prompts', value: updatedPrompts })
-
-      savePrompts(updatedPrompts)
+      savePrompts(homeDispatch, updatedPrompts)
     }
   }
 
   const handleDeletePrompt = (prompt: Prompt) => {
-    const updatedPrompts = prompts.filter((p) => p.id !== prompt.id)
+    const updatedPrompts = prompts && prompts.filter((p) => p.id !== prompt.id)
 
-    homeDispatch({ field: 'prompts', value: updatedPrompts })
-    savePrompts(updatedPrompts)
+    savePrompts(homeDispatch, updatedPrompts)
   }
 
   const handleUpdatePrompt = (prompt: Prompt) => {
@@ -77,9 +74,8 @@ const Promptbar = () => {
 
       return p
     })
-    homeDispatch({ field: 'prompts', value: updatedPrompts })
 
-    savePrompts(updatedPrompts)
+    savePrompts(homeDispatch, updatedPrompts)
   }
 
   const handleDrop = (e: any) => {
@@ -98,7 +94,7 @@ const Promptbar = () => {
   }
 
   useEffect(() => {
-    if (searchTerm) {
+    if (searchTerm && prompts) {
       promptDispatch({
         field: 'filteredPrompts',
         value: prompts.filter((prompt) => {

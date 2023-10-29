@@ -92,8 +92,8 @@ export const ChatMessage: FC<Props> = memo(
       state: {
         selectedConversation,
         conversations,
-        currentMessage,
         messageIsStreaming,
+        ramonaModel,
       },
       dispatch: homeDispatch,
     } = useContext(HomeContext)
@@ -179,17 +179,17 @@ export const ChatMessage: FC<Props> = memo(
       } else {
         messages.splice(findIndex, 1)
       }
-      const updatedConversation = {
+      const updatedCurrentPageConversation = {
         ...selectedConversation,
         messages,
       }
 
-      const { single, all } = updateConversation(
-        updatedConversation,
+      updateConversation(
+        homeDispatch,
+        ramonaModel,
+        updatedCurrentPageConversation,
         conversations,
       )
-      homeDispatch({ field: 'selectedConversation', value: single })
-      homeDispatch({ field: 'conversations', value: all })
     }
 
     const handlePressEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

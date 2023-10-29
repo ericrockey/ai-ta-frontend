@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { ModelSelect } from './ModelSelect'
 import { SystemPrompt } from './SystemPrompt'
 import { TemperatureSlider } from './Temperature'
+import { Conversation } from '~/types/chat'
 
 // Define the types for the component props
 interface ModelParamsProps {
-  selectedConversation: any // Replace 'any' with the appropriate type
+  ramonaModel: string
+  selectedConversation: Conversation | undefined // Replace 'any' with the appropriate type
   prompts: any // Replace 'any' with the appropriate type
   handleUpdateConversation: (
     conversation: any,
@@ -15,6 +17,7 @@ interface ModelParamsProps {
 }
 
 export const ModelParams = ({
+  ramonaModel,
   selectedConversation,
   prompts,
   handleUpdateConversation,
@@ -36,7 +39,7 @@ export const ModelParams = ({
       <div className="collapse-title text-xl font-medium text-black dark:text-white">
         Model Parameters
       </div>
-      {isChecked && (
+      {isChecked && selectedConversation && (
         <div className="collapse-content">
           <div className="flex h-full flex-col space-y-4 rounded-lg p-4">
             <ModelSelect />

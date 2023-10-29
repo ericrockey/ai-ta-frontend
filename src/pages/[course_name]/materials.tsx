@@ -180,7 +180,6 @@ const CourseMain: NextPage<CourseMainProps> = (props) => {
     )
   }
 
-  console.info('calling MakeOldCoursePage')
   return (
     <>
       <MakeOldCoursePage

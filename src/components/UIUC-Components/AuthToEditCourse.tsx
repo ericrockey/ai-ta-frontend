@@ -32,11 +32,8 @@ export const AuthComponent = ({ course_name }: { course_name: string }) => {
         <div className="container flex flex-col items-center justify-center gap-8 px-4 py-8 ">
           <Link href="/">
             <h2 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-              {' '}
-              Ramona
-              <span className="${inter.style.fontFamily} text-[hsl(280,100%,70%)]">
-                AI
-              </span>{' '}
+            {' '}
+              AI-TA{' '}
             </h2>
           </Link>
         </div>

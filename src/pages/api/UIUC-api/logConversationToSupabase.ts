@@ -25,7 +25,7 @@ const logConversationToSupabase = async (req: any, res: any) => {
     },
   )
   if (error) {
-    console.log('error form supabase:', error)
+    console.log('error from supabase:', error)
   }
   return res.status(200).json({ success: true })
 }

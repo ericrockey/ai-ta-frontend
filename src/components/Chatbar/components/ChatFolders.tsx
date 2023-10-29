@@ -14,7 +14,7 @@ interface Props {
 
 export const ChatFolders = ({ searchTerm }: Props) => {
   const {
-    state: { folders, conversations },
+    state: { folders, conversations, ramonaModel },
     handleUpdateConversation,
   } = useContext(HomeContext)
 
@@ -31,7 +31,8 @@ export const ChatFolders = ({ searchTerm }: Props) => {
   const ChatFolders = (currentFolder: FolderInterface) => {
     return (
       conversations &&
-      conversations
+      conversations[ramonaModel] &&
+      conversations[ramonaModel]
         .filter((conversation) => conversation.folderId)
         .map((conversation, index) => {
           if (conversation.folderId === currentFolder.id) {

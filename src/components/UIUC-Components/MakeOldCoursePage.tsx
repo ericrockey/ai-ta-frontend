@@ -54,7 +54,6 @@ const MakeOldCoursePage = ({
 }: {
   course_name: string
 }) => {
-  console.log('MakeOldCoursePage')
   // Check auth - https://clerk.com/docs/nextjs/read-session-and-user-data
   // const { classes, } = useStyles()
   const { isLoaded, userId, sessionId, getToken } = useAuth() // Clerk Auth
@@ -76,17 +75,14 @@ const MakeOldCoursePage = ({
       setCurrentEmail(userEmail[0] as string)
 
       try {
-        console.log('before call to fetchCourseMetadata')
         const metadata: CourseMetadata = (await fetchCourseMetadata(
           currentPageName,
         )) as CourseMetadata
-        console.log('after call to fetchCourseMetadata')
         if (metadata && metadata.is_private) {
           metadata.is_private = JSON.parse(
             metadata.is_private as unknown as string,
           )
         }
-        console.log('calling setCourseMetadata')
         setCourseMetadata(metadata)
       } catch (error) {
         console.error(error)
@@ -120,9 +116,6 @@ const MakeOldCoursePage = ({
     }
   }, [courseData])
 
-  console.info('MakeOldCOurse Page');
-  console.log('isLoaded = ', isLoaded);
-  console.log('courseMetadata = ', courseMetadata);
   if (!isLoaded || !courseMetadata) {
     return (
       <MainPageBackground>
@@ -149,7 +142,7 @@ const MakeOldCoursePage = ({
 
   return (
     <>
-      <Navbar isEditing isNew={false} course_name={course_name} />
+      <Navbar isEditing isNew={false} ramonaModel={course_name} />
 
       <Head>
         <title>{course_name}</title>

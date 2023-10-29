@@ -452,7 +452,6 @@ const PrivateOrPublicCourse = ({
   // console.log("in MakeNewCoursePage.tsx user email list: ", user_emails )
 
   useEffect(() => {
-    console.log('about to call fetchCourseDefault')
     async function fetchCourseDefault() {
       try {
         const url = new URL(
@@ -467,14 +466,12 @@ const PrivateOrPublicCourse = ({
           },
         })
 
-        console.log('fetchCourseDefault, fetch res = ', JSON.stringify(response))
         if (response.ok) {
           const data = await response.json()
           if (data.success === false) {
             console.error('An error occurred while fetching course metadata')
             return null
           }
-          console.log('success returning getCourseDefault, data = ' , JSON.stringify(data))
           return data.course_default
         } else {
           console.error(`Error fetching course metadata: ${response.status}`)
@@ -487,7 +484,6 @@ const PrivateOrPublicCourse = ({
     }
 
     fetchCourseDefault().then((course_default) => {
-      console.log('defaultCourse = ', course_default)
       if (course_default === course_name) setIsDefault(true);
     })
   }, [])
@@ -627,7 +623,6 @@ const PrivateOrPublicCourse = ({
     new_course_metadata: CourseMetadata,
     course_name: string,
   ) => {
-    console.log('Fresh course metadata:', new_course_metadata)
     callSetCourseMetadata(
       {
         ...new_course_metadata,

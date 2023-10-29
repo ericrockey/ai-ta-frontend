@@ -16,9 +16,9 @@ export const TemperatureSlider: FC<Props> = ({
   onChangeTemperature,
 }) => {
   const {
-    state: { conversations },
+    state: { conversations, ramonaModel },
   } = useContext(HomeContext)
-  const lastConversation = conversations[conversations.length - 1]
+  const lastConversation = conversations[ramonaModel] && conversations[ramonaModel].length > 0 ? conversations[ramonaModel][conversations[ramonaModel].length - 1] : null;
   const [temperature, setTemperature] = useState(
     lastConversation?.temperature ?? DEFAULT_TEMPERATURE,
   )
