@@ -151,18 +151,7 @@ export const Chatbar = () => {
         handleSelectConversation(lastConversation);
       }
     } else {
-      if (defaultModelId) {
-        const newConversation = {
-          id: uuidv4(),
-          name: t('New Conversation'),
-          messages: [],
-          model: OpenAIModels[defaultModelId],
-          prompt: DEFAULT_SYSTEM_PROMPT,
-          temperature: DEFAULT_TEMPERATURE,
-          folderId: null,
-        }
-        handleSelectConversation(newConversation);
-      }
+      handleNewConversation();
     }
   }
 

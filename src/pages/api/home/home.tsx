@@ -324,6 +324,7 @@ const Home = ({
     const modelConversations = updatedConversations[ramonaModel] ? updatedConversations[ramonaModel] : null;
     if (modelConversations && modelConversations.length > 0) {
       saveConversation(dispatch, modelConversations[modelConversations.length - 1]);
+      saveModelConversations(dispatch, modelConversations)
     } else {
       handleNewConversation();
     }
