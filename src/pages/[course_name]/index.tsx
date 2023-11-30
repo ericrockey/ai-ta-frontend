@@ -17,6 +17,7 @@ import { extractEmailsFromClerk } from '~/components/UIUC-Components/clerkHelper
 import { Query } from 'react-query'
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  console.log('getServerSideProps')
   const { params } = context
   if (!params) {
     return {

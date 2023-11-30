@@ -27,6 +27,7 @@ import { ChatbarInitialState, initialState } from './Chatbar.state'
 import { v4 as uuidv4 } from 'uuid'
 
 export const Chatbar = () => {
+  console.log('chatbar')
   const { t } = useTranslation('sidebar')
 
   const chatBarContextValue = useCreateReducer<ChatbarInitialState>({
@@ -42,7 +43,7 @@ export const Chatbar = () => {
     handleUpdateConversations,
     handleSelectConversation,
   } = useContext(HomeContext)
-
+  console.log('past useContext')
   const {
     state: { searchTerm, filteredConversations },
     dispatch: chatDispatch,
@@ -169,7 +170,7 @@ export const Chatbar = () => {
       e.target.style.background = 'none'
     }
   }
-
+  console.log('before useeffect')
   useEffect(() => {
     if (searchTerm && modelConversations) {
       const selectedFilteredConv = modelConversations.filter((conversation) => {
@@ -192,7 +193,7 @@ export const Chatbar = () => {
       })
     }
   }, [conversations, filteredConversations, searchTerm, modelConversations])
-
+  console.log('after useeffect')
   return (
     <ChatbarContext.Provider
       value={{

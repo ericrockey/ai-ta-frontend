@@ -125,20 +125,20 @@ const MakeOldCoursePage = ({
   }
 
   // TODO: update this check to consider Admins & participants.
-  if (
-    courseMetadata &&
-    currentEmail !== (courseMetadata.course_owner as string) &&
-    courseMetadata.course_admins.indexOf(currentEmail) === -1
-  ) {
-    router.push(`/${course_name}/not_authorized`)
+  // if (
+  //   courseMetadata &&
+  //   currentEmail !== (courseMetadata.course_owner as string) &&
+  //   courseMetadata.course_admins.indexOf(currentEmail) === -1
+  // ) {
+  //   router.push(`/${course_name}/not_authorized`)
 
-    return (
-      <CannotEditCourse
-        course_name={currentPageName as string}
-        // current_email={currentEmail as string}
-      />
-    )
-  }
+  //   return (
+  //     <CannotEditCourse
+  //       course_name={currentPageName as string}
+  //       // current_email={currentEmail as string}
+  //     />
+  //   )
+  // }
 
   return (
     <>

@@ -65,6 +65,7 @@ const Home = ({
   course_metadata,
   ramonaModel,
 }: Props) => {
+  console.log('home.tsx')
   const { t } = useTranslation('chat')
   const { getModels } = useApiService()
   const { getModelsError } = useErrorService()
@@ -98,7 +99,7 @@ const Home = ({
   // const course_exists = course_metadata != null
 
   // ------------------- 👇 MOST BASIC AUTH CHECK 👇 -------------------
-
+  console.log('home.tsx')
   // DO AUTH-based redirect!
   useEffect(() => {
     if (clerk_user_outer.isLoaded) {
@@ -123,7 +124,7 @@ const Home = ({
     }
   }, [clerk_user_outer.isLoaded])
   // ------------------- 👆 MOST BASIC AUTH CHECK 👆 -------------------
-
+  console.log('past auth check')
   const [data, setData] = useState(null) // using the original version.
   const [error, setError] = useState<unknown>(null) // Update the type of the error state variable
 
@@ -164,7 +165,7 @@ const Home = ({
     dispatch,
     modelsFetched,
   ]) // Add modelsFetched to the dependency array
-
+  console.log('past fetch models')
   useEffect(() => {
     if (data) dispatch({ field: 'models', value: data })
   }, [data, dispatch])
@@ -321,7 +322,7 @@ const Home = ({
       updatedConversations = savedConversations ? JSON.parse(savedConversations) : {};
       dispatch({ field: 'conversations', value: updatedConversations });
     }
-    const modelConversations = updatedConversations[ramonaModel] ? updatedConversations[ramonaModel] : null;
+    const modelConversations = updatedConversations && updatedConversations[ramonaModel] ? updatedConversations[ramonaModel] : null;
     if (modelConversations && modelConversations.length > 0) {
       saveConversation(dispatch, modelConversations[modelConversations.length - 1]);
       saveModelConversations(dispatch, modelConversations)
@@ -381,7 +382,7 @@ const Home = ({
   }, [defaultModelId, serverSideApiKeyIsSet, serverSidePluginKeysSet])
 
   // ON LOAD --------------------------------------------
-
+  console.log('before onload')
   useEffect(() => {
     const settings = getSettings()
     if (settings.theme) {
@@ -434,7 +435,7 @@ const Home = ({
       dispatch({ field: 'prompts', value: JSON.parse(prompts) })
     }
   }, [defaultModelId, dispatch, serverSideApiKeyIsSet, serverSidePluginKeysSet])
-
+  console.log('after onload')
   return (
     <HomeContext.Provider
       value={{
@@ -503,6 +504,7 @@ export default Home
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext,
 ) => {
+  console.log('getServerSideprops')
   const { locale } = context
   const ramonaModel = context.params?.course_name as string
   // Check course authed users -- the JSON.parse is CRUCIAL to avoid bugs with the stringified JSON 😭
@@ -542,7 +544,6 @@ export const getServerSideProps: GetServerSideProps = async (
   }
 
   console.log('serverSideApiKeyIsSet = ', !!process.env.OPENAI_API_KEY);
-
   return {
     props: {
       // ...buildClerkProps(context.req), // https://clerk.com/docs/nextjs/getserversideprops

@@ -15,6 +15,7 @@ export const config = {
 }
 
 const handler = async (req: Request): Promise<Response> => {
+  console.log('chat')
   try {
     const { model, messages, key, prompt, temperature, course_name } =
       (await req.json()) as ChatBody

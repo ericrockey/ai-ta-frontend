@@ -40,6 +40,7 @@ const Sidebar = <T,>({
   handleCreateFolder,
   handleDrop,
 }: Props<T>) => {
+  console.log('sidebar')
   const { t } = useTranslation('promptbar')
 
   const allowDrop = (e: any) => {

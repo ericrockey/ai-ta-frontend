@@ -490,7 +490,7 @@ export const Chat = memo(({ stopConversationRef, courseMetadata, defaultModelId 
               )}
             </div>
             <div>
-              {t("If you don't have an OpenAI API key, you can get one here: ")}
+              {"If you don't have an OpenAI API key, you can get one here: "}
               <a
                 href="https://platform.openai.com/account/api-keys"
                 target="_blank"
